@@ -32,15 +32,6 @@ session_start();
 
         <link rel="shortcut icon" type="image/x-icon" href="images/logo.png" />
         
-<!--
-
-Tooplate 2134 Recruitify Job
-
-https://www.tooplate.com/view/2134-Recruitify-job
-
-Bootstrap 5 HTML CSS Template
-
--->
     </head>
     
     <body id="top">
