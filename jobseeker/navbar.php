@@ -57,8 +57,8 @@ include '../db-connect.php';
                     <?php
 
 
-                    if ($_SESSION['user__id']) {
-                        $sql = "select U_Name,U_Image from User_tbl where U_Id='$_SESSION[user__id]'";
+                    if ($_SESSION['user_id']) {
+                        $sql = "select U_Name,U_Image from User_tbl where U_Id='$_SESSION[user_id]'";
                         $data = mysqli_query($con, $sql);
                         $result = mysqli_fetch_array($data);
                         $_SESSION["username"] = $result['U_Name'];
@@ -90,6 +90,39 @@ include '../db-connect.php';
             </div>
         </div>
     </nav>
-</body>
+    <?php
+        if (isset($_COOKIE['success']) || isset($_COOKIE['error'])) {
+            $message = isset($_COOKIE['success']) ? $_COOKIE['success'] : $_COOKIE['error'];
 
-</html>
+    //         echo '
+    // <div class="toast-container position-fixed end-0 p-3 ">
+    //     <div class="toast align-items-center ' . (isset($_COOKIE['success']) ? 'bg-success' : 'bg-danger') . ' text-white border-0" data-bs-delay="3000" role="alert" aria-live="assertive" aria-atomic="true" id="myToast">
+    //         <div class="d-flex">
+    //         <div class="toast-body">
+    //             ' . $message . '
+    //         </div>
+    //         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    //         </div>
+    //     </div>
+    // </div>
+    // <script>
+    //     window.onload = function() {
+    //         var myToast = document.getElementById("myToast");
+    //         var toast = new bootstrap.Toast(myToast);
+    //         toast.show();
+    //     };
+    // </script>';
+    echo '
+        <div class="alert ' . (isset($_COOKIE['success']) ? 'alert-success' : 'alert-danger') . '" role="alert" id="myAlert">
+            '.$message.'
+        </div>
+        <script>
+            setTimeout(()=>{
+                const alert = bootstrap.Alert.getOrCreateInstance("#myAlert");
+                alert.close();
+            },3000);
+        </script>
+        ';
+        }
+
+        ?>

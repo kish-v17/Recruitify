@@ -26,10 +26,8 @@ if (isset($_POST['verify'])) {
                     $country =  $_SESSION['user_data']['country'];
                     $pass =  $_SESSION['user_data']['pass'];
 
-                    // $sql = "INSERT INTO user_details_tbl (First_Name, Last_Name, Email, Mobile_no, Password, Active_Status) 
-                                // VALUES ('$regfname', '$reglname', '$regemail', '$regphone', '$regpwd', '1')";
-                    $sql="insert into User_tbl U_Id, U_Type_Id, U_Name, U_Email, U_DOB, U_Gender, U_City, U_State, U_Country, U_Mobile, U_Password, U_Reg_Date values(U_Id,'$utype','$name','$email','$dob','$gender','$city','$state','$country','$mob','$pass',NOW())";
-                    
+                    $sql = "insert into User_tbl(U_Id, U_Type_Id, U_Name, U_Email, U_DOB, U_Gender, U_City, U_State, U_Country, U_Mobile, U_Password, U_Reg_Date) values(U_Id,'$utype','$name','$email','$dob','$gender','$city','$state','$country','$mob','$pass',NOW())";
+
                     if (mysqli_query($con, $sql)) {
                         unset($_SESSION['user_data']);
                         unset($_SESSION['otp']);
@@ -37,7 +35,7 @@ if (isset($_POST['verify'])) {
 
                         $_SESSION['user_id'] = mysqli_insert_id($con);
                         setcookie('success', "You have registered successfully!", time() + 5, "/");
-                        echo "<script> location.replace('index.php');</script>";
+                        echo "<script> location.replace('jobseeker/');</script>";
                     } else {
                         setcookie('error', mysqli_error($con), time() + 5, "/");
                     }

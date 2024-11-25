@@ -195,7 +195,7 @@ Bootstrap 5 HTML CSS Template
                             </div>
                         </div>
                     <?php
-                        include '../db-connect.php'; 
+                        // include '../db-connect.php'; 
                         include '../time-ago.php';  
                                              
                         $sql="select * from Job_List_tbl INNER JOIN Company_tbl on Job_List_tbl.J_Company_Id=Company_tbl.C_Id";
