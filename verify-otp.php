@@ -29,13 +29,19 @@ if (isset($_POST['verify'])) {
                     $sql = "insert into User_tbl(U_Id, U_Type_Id, U_Name, U_Email, U_DOB, U_Gender, U_City, U_State, U_Country, U_Mobile, U_Password, U_Reg_Date) values(U_Id,'$utype','$name','$email','$dob','$gender','$city','$state','$country','$mob','$pass',NOW())";
 
                     if (mysqli_query($con, $sql)) {
-                        unset($_SESSION['user_data']);
-                        unset($_SESSION['otp']);
-                        unset($_SESSION['otp_expiration']);
-
                         $_SESSION['user_id'] = mysqli_insert_id($con);
+                        if ($_SESSION['user_data']['utype'] == 2) {
+                            unset($_SESSION['user_data']);
+                            unset($_SESSION['otp']);
+                            unset($_SESSION['otp_expiration']);
+                            echo "<script> location.replace('jobseeker/');</script>";
+                        } else {
+                            unset($_SESSION['user_data']);
+                            unset($_SESSION['otp']);
+                            unset($_SESSION['otp_expiration']);
+                            echo "<script> location.replace('employer/');</script>";
+                        }
                         setcookie('success', "You have registered successfully!", time() + 5, "/");
-                        echo "<script> location.replace('jobseeker/');</script>";
                     } else {
                         setcookie('error', mysqli_error($con), time() + 5, "/");
                     }
