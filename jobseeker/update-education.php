@@ -94,13 +94,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-12 text-center">
-                        <h1 class="text-white">Add Education</h1>
+                        <h1 class="text-white">Update Details</h1>
 
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
 
-                                <li class="breadcrumb-item active" aria-current="page">Add Education</li>
+                                <li class="breadcrumb-item active" aria-current="page">Update Details</li>
                             </ol>
                         </nav>
                     </div>
@@ -108,42 +108,50 @@
             </div>
         </header>
 
+        <?php
+        if ($_SESSION['user_id']) {
+            $sql = "select * from Education_tbl E where E.Education_Id=" . $_GET["education_id"];
+            $data = mysqli_query($con, $sql);
+            $result = mysqli_fetch_array($data);
+        ?>
+
             <section class="contact-section section-padding">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-8 col-12 mx-auto">
                             <form class="custom-form contact-form" enctype="multipart/form-data" method="post" role="form" id="edu">
-                                <h2 class="text-center mb-4">Add Education Details</h2>
+                                <h2 class="text-center mb-4">Update Education Details</h2>
 
+                                <input type="hidden" name="education_id" value="<?= $_GET["education_id"] ?>" />
                                 <div class="row">
                                     <div class="col-lg-12 col-12">
                                         <label for="Course">Course</label>
-                                        <input type="text" name="course" id="course" class="form-control">
+                                        <input type="text" name="course" id="course" class="form-control" value="<?php echo $result['Course']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="institute">Institute/University</label>
-                                        <input tyoe="text" name="uni" id="uni" class="form-control">
+                                        <input tyoe="text" name="uni" id="uni" class="form-control" value="<?php echo $result['Institute']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="city">City</label>
 
-                                        <input type="text" name="city" id="city" class="form-control" >
+                                        <input type="text" name="city" id="city" class="form-control" value="<?php echo $result['Institute_City']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="start">Starting Date</label>
-                                        <input type="date" name="start" id="start" class="form-control" >
+                                        <input type="date" name="start" id="start" class="form-control" value="<?php echo $result['Start_Date']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="end">Ending Date</label>
-                                        <input type="date" name="end" id="end" class="form-control" >
+                                        <input type="date" name="end" id="end" class="form-control" value="<?php echo $result['End_Date']; ?>">
                                     </div>
 
                                     <div class="col-lg-4 col-md-4 col-6 mx-auto">
-                                        <button type="submit" class="form-control" name="edup">Add Education</button>
+                                        <button type="submit" class="form-control" name="edup">Update</button>
                                     </div>
                                     <br /><br /><br />
                                 </div>
@@ -152,6 +160,7 @@
                     </div>
                 </div>
             </section>
+        <?php } ?>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -166,18 +175,13 @@ if (isset($_POST['edup'])) {
     $city = $_POST['city'];
     $start = $_POST['start'];
     $end = $_POST['end'];
-    $user_id = $_SESSION['user_id'];
-    $sql = "INSERT INTO Education_tbl (User_Id, Course, Institute, Institute_City, Start_Date, End_Date) 
-        VALUES ('$user_id', '$course', '$uni', '$city', '$start', " . ($end ? "'$end'" : "NULL") . ")";
+    $education_id = $_POST["education_id"];
 
-    $sql = mysqli_query($con, $sql);
-
-    if ($sql) {
-        echo "<script> alert('Information Inserted Successfully'); location.replace('profile.php');</script>";
-    } else {
-        echo "<script> alert('Error Inserting Data'); location.replace('profile.php');</script>";
-    }
+    $sql = "update Education_tbl set Course='$course', Institute='$uni', Institute_City='$city', Start_Date='$start', End_Date='$end' where Education_Id='$education_id'";
+    $data = mysqli_query($con, $sql);
+    echo "<script> alert('Information Updated'); location.replace('profile.php');</script>";
 }
+
 ?>
 
 </html>

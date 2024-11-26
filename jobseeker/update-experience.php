@@ -94,13 +94,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-12 text-center">
-                        <h1 class="text-white">Add Experience</h1>
+                        <h1 class="text-white">Update Details</h1>
 
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
 
-                                <li class="breadcrumb-item active" aria-current="page">Add Experience</li>
+                                <li class="breadcrumb-item active" aria-current="page">Update Details</li>
                             </ol>
                         </nav>
                     </div>
@@ -109,12 +109,42 @@
         </header>
 
 
+        <?php
+        if ($_SESSION['user_id']) {
+            $sql = "select * from Experience_tbl where Experience_Id=".$_GET["experience_id"];
+            $data = mysqli_query($con, $sql);
+            $result = mysqli_fetch_array($data);
+
+            switch ($result['Is_Current']) {
+                case '0':
+                    $c1 = 'checked';
+                    $c2 = '';
+                    break;
+                case '1':
+                    $c1 = '';
+                    $c2 = 'checked';
+                    break;
+            }
+        ?>
+
             <section class="contact-section section-padding">
                 <div class="container">
                     <div class="col-lg-8 col-12 mx-auto">
                         <form class="custom-form contact-form" enctype="multipart/form-data" id="exp" method="post" role="form">
                             <h2 class="text-center mb-4">Experience Details</h2>
                             <div class="row">
+
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <input type="hidden" name="experience_id" value="<?= $_GET["experience_id"] ?>">
+                                    <label for="crntJob">Is this your current job?</label>
+                                    <center>
+                                        <div class="form-control">
+                                            <label><input type="radio" name="iscrnt" id="crnt" value="1" <?php echo $c1; ?>> YES &emsp;</label>
+                                            &emsp;<label><input type="radio" name="iscrnt" id="crnt" value="0" <?php echo $c2; ?>> NO </label>
+                                        </div>
+                                    </center>
+                                </div>
+
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="company">Company</label>
                                     <select name="company" id="company" class="form-control">
@@ -124,44 +154,44 @@
                                         echo '<option value="">Select Company</option>';
                                         if ($data && mysqli_num_rows($data) > 0) {
                                             while ($row = mysqli_fetch_assoc($data)) {
-                                                echo '<option value="' . $row['Company_Id'] . '" >' . $row['Name'] . '</option>';
+                                                echo '<option value="' . $row['Company_Id'] . '" ' . ($result['Company_Id']==$row['Company_Id']?'selected ':'') . ' >' . $row['Name'] . '</option>';
                                             }
-                                        }  
+                                        }
                                     ?>
                                     </select>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="branch">Branch</label>
-                                    <select name="branch" id="branch" class="form-control" >
-                                        <option value="">Select Branch</option>
+                                    <select name="branch" id="branch" class="form-control">
+                                    <?php
+                                        $query = "SELECT Branch_Id, CONCAT(Address,' ', City,', ', State) AS Address FROM branch_tbl where Company_Id=" . $result["Company_Id"];
+                                        $data = mysqli_query($con, $query);
+                                        echo '<option value="">Select Branch</option>';
+                                        if ($data && mysqli_num_rows($data) > 0) {
+                                            while ($row = mysqli_fetch_assoc($data)) {
+                                                echo '<option value="' . $row['Branch_Id'] . '" ' . ($result['Branch_Id']==$row['Branch_Id']?'selected ':'') . ' >' . $row['Address'] . '</option>';
+                                            }
+                                        }
+                                    ?>
                                     </select>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
-                                    <label for="crntJob">Is this your current job?</label>
-                                    <center>
-                                        <div class="form-control">
-                                            <label><input type="radio" name="iscrnt" id="crnt" value="1" > YES &emsp;</label>
-                                            &emsp;<label><input type="radio" name="iscrnt" id="crnt" value="0" > NO </label>
-                                        </div>
-                                    </center>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
                                     <label for="desg">Designation</label>
-                                    <input type="text" name="desg" id="desg" class="form-control">
+                                    <input type="text" name="desg" id="desg" class="form-control" value="<?php echo $result['Designation']; ?>">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="join">Joining Date</label>
-                                    <input type="date" name="start" id="start" class="form-control" >
+                                    <input type="date" name="start" id="start" class="form-control" value="<?php echo $result['Joining_Date']; ?>">
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="end">Leaving Date</label>
-                                    <input type="date" name="end" id="end" class="form-control">
+                                    <input type="date" name="end" id="end" class="form-control" value="<?php echo $result['Leaving_Date']; ?>">
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-6 mx-auto">
-                                    <button type="submit" class="form-control" name="exup">Add Experience</button>
+                                    <button type="submit" class="form-control" name="exup">Update</button>
                                 </div>
                                 <br /><br /><br />
                             </div>
@@ -169,32 +199,12 @@
                     </div>
                 </div>
             </section>
+        <?php } ?>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="js/index.js"></script>
     <script>
-        function toggleNewCompanyInput() {
-    const companySelect = document.getElementById('company');
-    const newCompanyInput = document.getElementById('new-company');
-    
-    if (companySelect.value === "") {
-        newCompanyInput.style.display = "block";
-    } else {
-        newCompanyInput.style.display = "none";
-    }
-}
-
-function toggleNewBranchInput() {
-    const branchSelect = document.getElementById('branch');
-    const newBranchInput = document.getElementById('new-branch');
-    
-    if (branchSelect.value === "") {
-        newBranchInput.style.display = "block";
-    } else {
-        newBranchInput.style.display = "none";
-    }
-}
     document.addEventListener('DOMContentLoaded', () => {
         const companyDropdown = document.getElementById('company');
         const branchDropdown = document.getElementById('branch');
@@ -243,18 +253,15 @@ if (isset($_POST['exup'])) {
     $desg = $_POST['desg'];
     $start = $_POST['start'];
     $end = $_POST['end'] ==""?"NULL": $_POST['end'];
-    $user_id = $_SESSION["user_id"];
-    
-    $sql = "INSERT INTO experience_tbl (User_Id, Is_Current, Company_Id, Branch_Id, Designation, Joining_Date, Leaving_Date) 
-            VALUES ('$user_id', '$iscrnt', '$com', '$branch', '$desg', '$start', $end)";
-    
+    $experience_id = $_POST["experience_id"];
+
+    $sql = "update Experience_tbl set Is_Current='$iscrnt', Company_Id='$com',Branch_Id='$branch',Designation='$desg', Joining_Date='$start', Leaving_Date=$end where Experience_Id='$experience_id'";
     $data = mysqli_query($con, $sql);
-    
     if ($data) {
-        echo "<script> alert('Information Inserted Successfully'); location.replace('profile.php');</script>";
+        echo "<script> alert('Information Updated'); location.replace('profile.php');</script>";
     } else {
-        echo "<script> alert('Error Inserting Data'); location.replace('profile.php');</script>";
-    } 
+        echo "errorrr";
+    }
 }
 
 ?>

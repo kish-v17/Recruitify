@@ -75,7 +75,7 @@ $educationQuery = "SELECT * FROM education_tbl WHERE User_Id=" . $_SESSION["user
 $educationResult = mysqli_query($con, $educationQuery);
 
 $experienceQuery = "
-    SELECT e.Designation, e.Joining_Date, e.Leaving_Date, c.Name as 'Company_Name', CONCAT(', ',b.city,', ', b.country) as 'Branch_Address'
+    SELECT e.Experience_Id, e.Designation, e.Joining_Date, e.Leaving_Date, c.Name as 'Company_Name', CONCAT(', ',b.city,', ', b.country) as 'Branch_Address'
     FROM experience_tbl e
     INNER JOIN company_tbl c ON e.Company_Id = c.Company_Id
     INNER JOIN branch_tbl b ON e.Branch_Id = b.Branch_Id
@@ -151,13 +151,27 @@ $skillsResult = mysqli_query($con, $skillsQuery);
 
 <!-- Education Information -->
 <div class="row justify-content-center mb-3">
-    <div class="col-lg-8 col-12 mb-3 mx-auto">
+    <div class="col-12 mb-3 mx-auto">
         <fieldset style="font-weight:bold;">
             <legend style="padding:5px 0 0; text-decoration:underline;" align="center">
                 <h3>Education</h3>
             </legend>
-            <?php while ($education = mysqli_fetch_assoc($educationResult)): ?>
-                <div class="contact-info-wrap" style="padding:0 7px 7px 7px">
+            <div class="row">
+            <?php 
+            $count=0;  
+            
+            while ($education = mysqli_fetch_assoc($educationResult)){ 
+            $count++; 
+            ?>                                    
+                <div class="col-lg-6 col-12 contact-info-wrap position-relative" style="padding:0 7px 7px 7px">
+                    <div class="d-flex justify-content-end position-absolute top-0 end-0 pt-3 pe-5" >
+                        <a href="update-education.php?education_id=<?= $education['Education_Id']?>" class="btn btn-dark btn-sm mx-1" title="Update">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="delete-education.php?education_id=<?= $education['Education_Id']?>" class="btn btn-danger btn-sm mx-1" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
                     <div class="contact-info d-flex align-items-center">
                         <p class="mb-0">
                             <span class="contact-info-small-title">Course</span>
@@ -172,13 +186,16 @@ $skillsResult = mysqli_query($con, $skillsQuery);
                     </div>
                     <div class="contact-info d-flex align-items-center">
                         <p class="mb-0">
-                            <span class="contact-info-small-title">Duration</span> 
-                            <?= date('d-m-Y', strtotime($education['Start_Date']))  ?> to <?= date('d-m-Y', strtotime($education['End_Date']))  ?>
+                            <span class="contact-info-small-title">Duration</span>
+                            <?php $end_date = $education['End_Date'];
+                            $end_date= $end_date==""?"":date('d-m-Y', strtotime($end_date));?> 
+                            <?= date('d-m-Y', strtotime($education['Start_Date']))  ?> <?= ($end_date!=""? "to ".$end_date: "") ?>
                         </p>
                     </div>
                 </div>
-                <hr>
-            <?php endwhile; ?>
+                <?= $count%2==0? "<hr>" : "" ?>
+            <?php } ?>
+            </div>
             <div align="center">
                 <a href="add-education.php" class="custom-btn btn">Add New Education</a>
             </div>
@@ -188,12 +205,16 @@ $skillsResult = mysqli_query($con, $skillsQuery);
 
 <!-- Experience Information -->
 <div class="row justify-content-center">
-    <div class="col-lg-8 col-12 mb-3 mx-auto">
+    <div class="col-lg-12 col-12 mb-3 mx-auto">
         <fieldset style="font-weight:bold;">
             <legend style="padding:5px 0 0; text-decoration:underline;" align="center">
                 <h3>Experience</h3>
             </legend>
-            <?php while ($experience = mysqli_fetch_assoc($experienceResult)) {
+            <div class="row">
+            <?php 
+            $count=0; 
+            while ($experience = mysqli_fetch_assoc($experienceResult)) {
+                $count++;
                 $joiningDate = new DateTime($experience['Joining_Date']);
                 $leavingDate = $experience['Leaving_Date'] ? new DateTime($experience['Leaving_Date']) : new DateTime(); // Current date if NULL
                 $interval = $joiningDate->diff($leavingDate);
@@ -210,20 +231,31 @@ $skillsResult = mysqli_query($con, $skillsQuery);
                     $experienceString .= $months . " month" . ($months > 1 ? "s" : ""); // Handle plural
                 }
                 ?>
-                <div class="contact-info d-flex align-items-center">
-                    <p class="mb-0">
-                        <span class="contact-info-small-title">Company</span>
-                        <?= $experience['Company_Name'] .' '.  $experience['Branch_Address']  ?>
-                    </p>
+                <div class="col-lg-6 col-12 contact-info-wrap position-relative" style="padding:0 7px 7px 7px">
+                    <div class="d-flex justify-content-end position-absolute top-0 end-0 pt-3 pe-5" >
+                        <a href="update-experience.php?experience_id=<?= $experience['Experience_Id']?>" class="btn btn-dark btn-sm mx-1" title="Update">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="delete-experience.php?experience_id=<?= $experience['Experience_Id']?>" class="btn btn-danger btn-sm mx-1" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                    <div class="contact-info d-flex align-items-center">
+                        <p class="mb-0">
+                            <span class="contact-info-small-title">Company</span>
+                            <?= $experience['Company_Name'] .' '.  $experience['Branch_Address']  ?>
+                        </p>
+                    </div>
+                    <div class="contact-info d-flex align-items-center">
+                        <p class="mb-0">
+                            <span class="contact-info-small-title">Designation</span>
+                            <?= $experienceString ?>
+                        </p>
+                    </div>
                 </div>
-                <div class="contact-info d-flex align-items-center">
-                    <p class="mb-0">
-                        <span class="contact-info-small-title">Designation</span>
-                        <?= $experienceString ?>
-                    </p>
-                </div>
-                <hr>
+                <?= $count%2==0? "<hr>" : "" ?>
             <?php } ?>
+            </div>
 
             <div align="center">
                 <a href="add-experience.php" class="custom-btn btn">Add New Experience</a>
@@ -231,8 +263,6 @@ $skillsResult = mysqli_query($con, $skillsQuery);
         </fieldset>
     </div>
 </div>
-
-
             </div>
         </div>
     </section>

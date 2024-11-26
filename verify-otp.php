@@ -30,7 +30,7 @@ if (isset($_POST['verify'])) {
                     $pass = $_SESSION['user_data']['pass'];
                     $image = $_SESSION['user_data']['image']; 
 
-                    $sql = "INSERT INTO users_tbl (User_Type, Name, Email, DOB, Gender, City, State, Country, Mobile, Image, Password, Register_Date_Date) 
+                    $sql = "INSERT INTO users_tbl (User_Type, Name, Email, DOB, Gender, City, State, Country, Mobile, Image, Password, Register_Date) 
                             VALUES ('$utype', '$name', '$email', '$dob', '$gender', '$city', '$state', '$country', '$mob', '$image', '$pass', NOW())";
 
                     if (mysqli_query($con, $sql)) {
