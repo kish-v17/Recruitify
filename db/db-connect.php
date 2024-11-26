@@ -1,8 +1,5 @@
 <?php
 session_start();
+// error_reporting(0);
+
 $con = mysqli_connect("localhost", "root", "", "recruitify_db");
-if ($con) {
-    //echo "sucessfull";
-} else {
-    //echo "errorrr";
-}

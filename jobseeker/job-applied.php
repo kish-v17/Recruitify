@@ -174,7 +174,7 @@ Bootstrap 5 HTML CSS Template
                                 include '../db-connect.php'; 
                                 include '../time-ago.php';  
                                                     
-                                $sql="select * from Applications_tbl A INNER JOIN Job_List_tbl J on A.A_J_Id=J.J_Id INNER JOIN Company_tbl C on J.J_Company_Id=C.C_Id where A.A_U_Id= '$_SESSION[user__id]'";
+                                $sql="select * from Applications_tbl A INNER JOIN Job_List_tbl J on A.A_J_Id=J.J_Id INNER JOIN Company_tbl C on J.J_Company_Id=C.C_Id where A.A_U_Id= '$_SESSION[user_id]'";
                                 
                                 $data=mysqli_query($con,$sql);
                                 if(mysqli_num_rows($data))

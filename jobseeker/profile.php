@@ -1,42 +1,25 @@
-<?php
-include '../db-connect.php';
-
-//error_reporting(0);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>My Profile</title>
 
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;300;400;600;700&display=swap" rel="stylesheet">
-
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-
     <link href="../css/bootstrap-icons.css" rel="stylesheet">
-
     <link href="../css/owl.carousel.min.css" rel="stylesheet">
-
     <link href="../css/owl.theme.default.min.css" rel="stylesheet">
-
     <link href="tooplate-Recruitify-job.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <link rel="shortcut icon" type="image/x-icon" href="../images/logo.png" />
-
+    
     <style>
         input[type="file"]::file-selector-button {
             border-radius: 500px !important;
@@ -45,278 +28,234 @@ include '../db-connect.php';
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
+
+<?php include "navbar.php"; ?>
+
+<main>
+    <header class="site-header">
+        <div class="section-overlay"></div>
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.php">
-                <img src="../images/logo.png" class="img-fluid logo-image">
-
-                <div class="d-flex flex-column">
-                    <strong class="logo-text">Recruitify</strong>
-                    <small class="logo-slogan">Online Job Portal</small>
-                </div>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav align-items-center ms-lg-5">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Homepage</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.php">About Recruitify</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="job-listings.php">Job Listings</a>
-                    </li>
-
-                    <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-
-                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                <li><a class="dropdown-item" href="job-listings.php">Job Listings</a></li>
-
-                                <li><a class="dropdown-item" href="job-details.php">Job Details</a></li>
-                            </ul>
-                        </li> -->
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
-                    </li>
-                    <?php
-
-
-                    if ($_SESSION['user__id']) {
-                        $sql = "select * from User_tbl U INNER JOIN Education_tbl E on E.ED_U_Id='$_SESSION[user__id]' INNER JOIN Experience_tbl EX on EX.EX_U_Id='$_SESSION[user__id]' where U_Id='$_SESSION[user__id]'";
-                        $data = mysqli_query($con, $sql);
-                        $result = mysqli_fetch_array($data);
-
-                        echo '  <li class="nav-item ms-lg-auto">
-                                <a class="nav-link"><img class="avatar-image img-fluid"  src="../' . $result['U_Image'] . '" alt="Image"></a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link custom-btn btn" href="../logout.php">Log out</a>
-                            </li>
-                    </ul>
+            <div class="row">    
+                <div class="col-lg-12 col-12 text-center">
+                    <h1 class="text-white">My Profile</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
-        </nav>
+        </div>
+    </header>
 
-        <main>
-            <header class="site-header">
-                <div class="section-overlay"></div>
-                <div class="container">
-                    <div class="row">    
-                    <div class="col-lg-12 col-12 text-center">
-                        <h1 class="text-white">My Profile</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Profile</li>
-                            </ol>
-                        </nav>
+    <section class="contact-section section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <center>   
+                    <div class="col-lg-4 col-md-4 col-6 mx-auto mb-5" >
+                        <img height="350px" width="350px" style="object-fit: cover; border-radius:50%;" src="../images/profile.jpg" alt="Profile Image">
+                        <br/><br/>
+                        <button class="custom-btn btn ms-lg-auto" onclick="showForm()" href="#change"><i class="fa fa-file-image-o"></i>&ensp;<b>Change Profile</b></button> &ensp;&ensp;
+
+                        <form class="custom-form contact-form" enctype="multipart/form-data" method="post" role="form" id="change" style="display:none !important">
+                            <label for="Profile">Update Profile Photo</label>
+                            <input type="file" accept="image/jpeg,image/png,image/jpg" name="img" id="img" class="form-control" required>
+                            <button type="submit" class="custom-btn btn ms-lg-auto" name="change">Change Picture</button>
+                        </form>
                     </div>
+                </center>
+
+<?php
+$query = "SELECT * FROM users_tbl WHERE User_Id=" . $_SESSION["user_id"];
+$result = mysqli_query($con, $query);
+$user = mysqli_fetch_assoc($result);
+
+$educationQuery = "SELECT * FROM education_tbl WHERE User_Id=" . $_SESSION["user_id"];
+$educationResult = mysqli_query($con, $educationQuery);
+
+$experienceQuery = "
+    SELECT e.Designation, e.Joining_Date, e.Leaving_Date, c.Name as 'Company_Name', CONCAT(', ',b.city,', ', b.country) as 'Branch_Address'
+    FROM experience_tbl e
+    INNER JOIN company_tbl c ON e.Company_Id = c.Company_Id
+    INNER JOIN branch_tbl b ON e.Branch_Id = b.Branch_Id
+    WHERE e.User_Id = " . $_SESSION["user_id"];
+
+$experienceResult = mysqli_query($con, $experienceQuery);
+
+$skillsQuery = "SELECT s.Skill_Name FROM user_skills_tbl us
+                JOIN skills_tbl s ON us.Skill_Id = s.Skill_Id
+                WHERE us.User_Id = " . $_SESSION["user_id"];
+$skillsResult = mysqli_query($con, $skillsQuery);
+?>
+   
+<!-- Personal Information -->
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-12 mb-3 mx-auto">
+        <fieldset style="font-weight:bold;">
+            <legend style="padding:5px 0 0; text-decoration:underline;" align="center">
+                <h3>Personal Information</h3>
+            </legend>
+            <div class="contact-info-wrap" style="padding:0 7px 7px 7px">
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title">Username</span>
+                        <?= $user['Name'] ?>
+                    </p>
+                </div>
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title">Email</span>
+                        <?= $user['Email'] ?>
+                    </p>
+                </div>
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title">Mobile</span>
+                        <?= $user['Mobile'] ?>
+                    </p>
+                </div>
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title">Gender</span>
+                        <?= $user['Gender'] ?>
+                    </p>
+                </div>
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title">Date of Birth</span>
+                        <?= $user['DOB'] ?>
+                    </p>
+                </div>
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title">Address</span>
+                        <?= $user['City'] ?>, <?= $user['State'] ?>, <?= $user['Country'] ?>
+                    </p>
+                </div>
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title mb-1">Skills</span>
+                        <?php while ($skill = mysqli_fetch_assoc($skillsResult)): ?>
+                            <span class="badge"><?= $skill['Skill_Name'] ?></span>
+                        <?php endwhile; ?>
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 mb-lg-5 mb-3" align="center" style="margin-top:50px">
+                <a href="ud-update.php" class="custom-btn btn">Edit Profile</a>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<!-- Education Information -->
+<div class="row justify-content-center mb-3">
+    <div class="col-lg-8 col-12 mb-3 mx-auto">
+        <fieldset style="font-weight:bold;">
+            <legend style="padding:5px 0 0; text-decoration:underline;" align="center">
+                <h3>Education</h3>
+            </legend>
+            <?php while ($education = mysqli_fetch_assoc($educationResult)): ?>
+                <div class="contact-info-wrap" style="padding:0 7px 7px 7px">
+                    <div class="contact-info d-flex align-items-center">
+                        <p class="mb-0">
+                            <span class="contact-info-small-title">Course</span>
+                            <?= $education['Course'] ?>
+                        </p>
+                    </div>
+                    <div class="contact-info d-flex align-items-center">
+                        <p class="mb-0">
+                            <span class="contact-info-small-title">Institute</span>
+                            <?= $education['Institute'] ?>, <?= $education['Institute_City'] ?>
+                        </p>
+                    </div>
+                    <div class="contact-info d-flex align-items-center">
+                        <p class="mb-0">
+                            <span class="contact-info-small-title">Duration</span> 
+                            <?= date('d-m-Y', strtotime($education['Start_Date']))  ?> to <?= date('d-m-Y', strtotime($education['End_Date']))  ?>
+                        </p>
                     </div>
                 </div>
-            </header>
+                <hr>
+            <?php endwhile; ?>
+            <div align="center">
+                <a href="add-education.php" class="custom-btn btn">Add New Education</a>
+            </div>
+        </fieldset>
+    </div>
+</div>
 
-           <section class="contact-section section-padding">
-                <div class="container">
-                    <div class="row justify-content-center">
-                    <center>   
-                        <div class="col-lg-4 col-md-4 col-6 mx-auto" >
-                            <img height="350px" width="350px" style="object-fit: cover;border-radius:50%;"  src="../' . $result['U_Image'] . '" alt="Image">
-                            <br/><br/>
-                            <button class="custom-btn btn ms-lg-auto" onclick="showForm()" href="#change"><i class="fa fa-file-image-o"></i>&ensp;<b>Change Profile</b></button> &ensp;&ensp;
-                            <a class="custom-btn btn ms-lg-auto" href="profile-builder.php"><b>Build Your Profile</b></a><br/><br/>
-                        
-                                <form class="custom-form contact-form" enctype="multipart/form-data" method="post" role="form" id="change" style="display:none !important">
-                                
-                                        <label for="Profile"> Update Profile Photo</label>
+<!-- Experience Information -->
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-12 mb-3 mx-auto">
+        <fieldset style="font-weight:bold;">
+            <legend style="padding:5px 0 0; text-decoration:underline;" align="center">
+                <h3>Experience</h3>
+            </legend>
+            <?php while ($experience = mysqli_fetch_assoc($experienceResult)) {
+                $joiningDate = new DateTime($experience['Joining_Date']);
+                $leavingDate = $experience['Leaving_Date'] ? new DateTime($experience['Leaving_Date']) : new DateTime(); // Current date if NULL
+                $interval = $joiningDate->diff($leavingDate);
+                $years = $interval->y; // Extract the years
+                $months = $interval->m; // Extract the months
+            
+                // Format the output
+                $experienceString = "as " . $experience['Designation'] . " for ";
+                if ($years > 0) {
+                    $experienceString .= $years . " year" . ($years > 1 ? "s" : ""); // Handle plural
+                }
+                if ($months > 0) {
+                    if ($years > 0) $experienceString .= " and "; // Add "and" if both years and months exist
+                    $experienceString .= $months . " month" . ($months > 1 ? "s" : ""); // Handle plural
+                }
+                ?>
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title">Company</span>
+                        <?= $experience['Company_Name'] .' '.  $experience['Branch_Address']  ?>
+                    </p>
+                </div>
+                <div class="contact-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <span class="contact-info-small-title">Designation</span>
+                        <?= $experienceString ?>
+                    </p>
+                </div>
+                <hr>
+            <?php } ?>
 
-                                        <input type="file" accept="image/jpeg,image/png,image/jpg" name="img" id="img" class="form-control" required>
-                                    
-                                    
-                                        <button type="submit" class="custom-btn btn ms-lg-auto" name="change">Change Picture</button>
-                                    
-                                </form>
-                        </div>
-                    </center>
-                        <div class="col-lg-5 col-12 mb-3 mx-auto">
-                        <fieldset style="font-weight:bold;">
-                        <legend style="padding:5px 0 0; text-decoration:underline;" align="center"><h3>Personal Information</h3></legend>
-                            <div class="contact-info-wrap" style="padding:0 7px 7px 7px">
-                            
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Username</span>
-
-                                        ' . $result['U_Name'] . '
-                                    </p>
-                                </div>
-
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Email</span>
-
-                                        ' . $result['U_Email'] . '
-                                    </p>
-                                </div>
-
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Mobile</span>
-
-                                        ' . $result['U_Mobile'] . '
-                                    </p>
-                                </div>
-
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Gender</span>
-
-                                        ' . $result['U_Gender'] . '
-                                    </p>
-                                </div>
-
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Date of Birth</span>
-
-                                        ' . $result['U_DOB'] . '
-                                    </p>
-                                </div>
-
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Address</span>
-
-                                        ' . $result['U_City'] . ', ' . $result['U_Country'] . '
-                                    </p>
-                                </div>   
-                            </div>
-                            
-                            </fieldset>
-                        </div>';
+            <div align="center">
+                <a href="add-experience.php" class="custom-btn btn">Add New Experience</a>
+            </div>
+        </fieldset>
+    </div>
+</div>
 
 
+            </div>
+        </div>
+    </section>
 
-                        echo '<div class="col-lg-5 col-12 mb-3 mx-auto">
-                        <fieldset style="font-weight:bold;">
-                        <legend style="padding:5px 0 0; text-decoration:underline;" align="center"><h3>Education & Experience</h3></legend>
-                            <div class="contact-info-wrap" style="padding:0 7px 7px 7px">
-                            
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Cource</span>
+    
 
-                                        ' . $result['ED_Course'] . '
-                                    </p>
-                                </div>
+</main>
 
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Institute</span>
-
-                                        ' . $result['ED_Institute'] . ',  ' . $result['ED_Inst_City'] . '
-                                    </p>
-                                </div>
-
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Duration of Course</span>
-
-                                        ' . $result['ED_Start_Year'] . ' to ' . $result['ED_End_Year'] . '
-                                    </p>
-                                </div>
-   
-                            </div>
-                         
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Years of Experience</span>
-
-                                        ' . $result['EX_Years'] . ' years as ' . $result['EX_Desg'] . ' 
-                                    </p>
-                                </div>
-
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Comapny</span>
-
-                                        ' . $result['EX_Com'] . ', ' . $result['EX_City'] . '
-                                    </p>
-                                </div>
-
-                                <div class="contact-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <span class="contact-info-small-title">Duration of Job</span>
-
-                                        ' . $result['EX_Joining_Year'] . ' to ' . $result['EX_Leaving_Year'] . '
-                                    </p>
-                                </div>
-   
-                            </div>
-                            </fieldset>
-                            <div class="col-lg-6 col-12 mb-lg-5 mb-3" align="center" style="padding-top:30px">
-                                <a href="ud-update.php" id="form" class="custom-btn btn ms-lg-auto" width="100%"><i class="fa fa-edit" style="font-size:18px"></i>&ensp;<b>Update Information</b></a>
-                            </div>
-                        </div>
-                        </div>
-            </section>
-            ';
-                    } ?>
-
-
-                    <section class="cta-section">
-                        <div class="section-overlay"></div>
-
-                        <div class="container">
-                            <div class="row">
-
-                                <div class="col-lg-6 col-10">
-                                    <h2 class="text-white mb-2">Over 10k opening jobs</h2>
-
-                                    <p class="text-white">RECRUITIFY JOBS - Come, Browse & Get Desired Job. </p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    </main>
-</body>
 <script>
     function showForm() {
-        var x = document.getElementById('change');
-        if (x.style.display == 'none') {
-            x.style.display = 'block';
-        } else {
-            x.style.display = 'none';
-        }
+        var form = document.getElementById("change");
+        form.style.display = form.style.display === "none" ? "block" : "none";
     }
 </script>
 
-</html>
-
-<?php
-
-// error_reporting(0);
-
-
-
-
-
+<?php include "footer.php"; 
 $ip = "../images/user-img/user-profile/";
 $ip2 = "images/user-img/user-profile/";
 if (isset($_POST['change'])) {
     $img = $ip . basename($_FILES['img']['name']);
     $img2 = $ip2 . basename($_FILES['img']['name']);
     if (move_uploaded_file($_FILES['img']['tmp_name'], $img)) {
-        $sql = "update User_tbl set U_Image='$img2' where U_Id='$_SESSION[user__id]'";
+        $sql = "update Users_tbl set Image='$img2' where User_Id='$_SESSION[user__id]'";
         $data = mysqli_query($con, $sql);
         if ($data) {
             echo "<script> location.replace('profile.php');</script>";
@@ -325,5 +264,6 @@ if (isset($_POST['change'])) {
         }
     } else echo "Profile was not Changed!!";
 }
-include 'footer.php';
 ?>
+</body>
+</html>

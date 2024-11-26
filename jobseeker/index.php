@@ -101,7 +101,6 @@
         </section>
 
         <?php
-        // include '../db-connect.php';
         include '../time-ago.php';
 
         if (isset($_POST['find'])) {

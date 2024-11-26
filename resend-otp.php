@@ -1,5 +1,5 @@
 <?php
-include 'db-connect.php';
+include 'db/db-connect.php';
 
 require 'PHPMailer/Exception.php';
 require 'PHPMailer/PHPMailer.php';
@@ -9,14 +9,14 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 if (isset($_SESSION['user_data'])) {
-    $username = $_SESSION['user_data']['name'];
+    $username = $_SESSION['user_data']['full-name'];
     $email_id = $_SESSION['user_data']['email'];
 } else {
     $email_id = $_SESSION['email'];
-    $sql = "select * from user_details_tbl where Email='$email'";
+    $sql = "select * from users_tbl where Email='$email'";
     $result = mysqli_query($con, $sql);
     $user = mysqli_fetch_assoc($result);
-    $username = $user['First_Name'] . " " . $user['Last_Name'];
+    $username = $user['Name'];
 }
 $mail = new PHPMailer(true);
 try {
@@ -42,7 +42,7 @@ try {
                         <h2>Resend OTP for Email Verification</h2>
                         <p>Dear {$username},</p>
                         <p>Your new OTP for email verification is: <strong>$otp</strong></p>
-                        <p>This OTP will expire in 5 minutes.</p>
+                        <p>This OTP will expire in 2 minutes.</p>
                         <p>If you didn't request this, please ignore this email.</p>
                     </body>
                 </html>";

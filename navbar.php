@@ -1,6 +1,5 @@
 <?php
-include 'db-connect.php';
-error_reporting(1);
+include 'db/db-connect.php';
 ?>
 
 <!DOCTYPE html>
@@ -64,11 +63,11 @@ error_reporting(1);
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav align-items-center ms-lg-5">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Homepage</a>
+                        <a class="nav-link" href="index.php">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="about.php">About Recruitify</a>
+                        <a class="nav-link" href="about.php">About us</a>
                     </li>
 
                     <li class="nav-item">

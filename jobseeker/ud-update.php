@@ -150,12 +150,12 @@
         </section>
 
         <?php
-        if ($_SESSION['user__id']) {
-            $sql = "select * from User_tbl U INNER JOIN Education_tbl E on E.ED_U_Id='$_SESSION[user__id]' INNER JOIN Experience_tbl EX on EX.EX_U_Id='$_SESSION[user__id]' where U_Id='$_SESSION[user__id]'";
+        if ($_SESSION['user_id']) {
+            $sql = "select * from Users_tbl U INNER JOIN Education_tbl E on E.Education_Id='$_SESSION[user_id]' INNER JOIN Experience_tbl EX on EX.User_Id='$_SESSION[user_id]' where U.User_Id='$_SESSION[user_id]'";
             $data = mysqli_query($con, $sql);
             $result = mysqli_fetch_array($data);
 
-            switch ($result['U_Gender']) {
+            switch ($result['Gender']) {
                 case 'Male':
                     $ck1 = 'checked';
                     $ck2 = '';
@@ -172,7 +172,7 @@
                     $ck3 = 'checked';
                     break;
             }
-            switch ($result['EX_Is_Crnt']) {
+            switch ($result['Is_Current']) {
                 case 'Yes':
                     $c1 = 'checked';
                     $c2 = '';
@@ -195,19 +195,19 @@
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="first-name">Full Name</label>
 
-                                        <input type="text" name="full-name" id="full-name" class="form-control" value="<?php echo $result['U_Name']; ?>">
+                                        <input type="text" name="full-name" id="full-name" class="form-control" value="<?php echo $result['Name']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="email">Email Address</label>
 
-                                        <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" value="<?php echo $result['U_Email']; ?>">
+                                        <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" value="<?php echo $result['Email']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="dob">Date of Birth</label>
 
-                                        <input type="date" name="dob" id="dob" class="form-control" value="<?php echo $result['U_DOB']; ?>">
+                                        <input type="date" name="dob" id="dob" class="form-control" value="<?php echo $result['DOB']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
@@ -222,25 +222,25 @@
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="mobile" style="display:block">Mobile</label>
 
-                                        <input type="tel" name="mobile" id="mobile" class="form-control" value="<?php echo $result['U_Mobile']; ?>" pattern={0-9}[10]>
+                                        <input type="tel" name="mobile" id="mobile" class="form-control" value="<?php echo $result['Mobile']; ?>" pattern={0-9}[10]>
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="city">City</label>
 
-                                        <input type="text" name="city" id="city" class="form-control" value="<?php echo $result['U_City']; ?>">
+                                        <input type="text" name="city" id="city" class="form-control" value="<?php echo $result['City']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="city">State</label>
 
-                                        <input type="text" name="state" id="state" class="form-control" value="<?php echo $result['U_State']; ?>">
+                                        <input type="text" name="state" id="state" class="form-control" value="<?php echo $result['State']; ?>">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="country">Country</label>
 
-                                        <input type="text" name="country" id="country" class="form-control" value="<?php echo $result['U_Country']; ?>">
+                                        <input type="text" name="country" id="country" class="form-control" value="<?php echo $result['Country']; ?>">
                                     </div>
 
                                     <div class="col-lg-4 col-md-4 col-6 mx-auto">
@@ -415,7 +415,6 @@
     </script>
 </body>
 <?php
-include '../db-connect.php';
 include 'footer.php';
 //error_reporting(0);
 // ();
@@ -432,7 +431,7 @@ if (isset($_POST['pup'])) {
     $country = $_POST['country'];
 
 
-    $sql = "update User_tbl set U_Name='$name', U_Email='$email', U_DOB='$dob', U_Gender='$gender', U_City='$city', U_State='$state', U_Country='$country', U_Mobile='$mob' where U_Id='$_SESSION[user__id]'";
+    $sql = "update User_tbl set U_Name='$name', U_Email='$email', U_DOB='$dob', U_Gender='$gender', U_City='$city', U_State='$state', U_Country='$country', U_Mobile='$mob' where U_Id='$_SESSION[user_id]'";
     $data = mysqli_query($con, $sql);
     if ($data) {
         echo "<script> alert('Information Updated'); location.replace('profile.php');</script>";
@@ -449,7 +448,7 @@ if (isset($_POST['edup'])) {
     $start = $_POST['start'];
     $end = $_POST['end'];
 
-    $sql = "update Education_tbl set ED_Course='$course', ED_Institute='$uni', ED_Inst_City='$city', ED_Start_Year='$start', ED_End_Year='$end' where ED_U_Id='$_SESSION[user__id]'";
+    $sql = "update Education_tbl set ED_Course='$course', ED_Institute='$uni', ED_Inst_City='$city', ED_Start_Year='$start', ED_End_Year='$end' where ED_U_Id='$_SESSION[user_id]'";
     $data = mysqli_query($con, $sql);
     echo "<script> alert('Information Updated'); location.replace('profile.php');</script>";
 }
@@ -464,7 +463,7 @@ if (isset($_POST['exup'])) {
     $end = $_POST['end'];
     $salary = $_POST['salary'];
 
-    $sql = "update Experience_tbl set EX_Years='$year', EX_Is_Crnt='$iscrnt', EX_Com='$com',EX_City='$city',EX_Desg='$desg',EX_Salary='$salary', EX_Joining_Year='$start', EX_Leaving_Year='$end' where EX_U_Id='$_SESSION[user__id]'";
+    $sql = "update Experience_tbl set EX_Years='$year', EX_Is_Crnt='$iscrnt', EX_Com='$com',EX_City='$city',EX_Desg='$desg',EX_Salary='$salary', EX_Joining_Year='$start', EX_Leaving_Year='$end' where EX_U_Id='$_SESSION[user_id]'";
     $data = mysqli_query($con, $sql);
     if ($data) {
         echo "<script> alert('Information Updated'); location.replace('profile.php');</script>";

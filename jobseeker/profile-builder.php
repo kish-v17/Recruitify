@@ -224,7 +224,7 @@ if (isset($_POST['saveEdu'])) {
     $start = $_POST['start'];
     $end = $_POST['end'];
 
-    $sql = "insert into Education_tbl values(ED_Id,'$_SESSION[user__id]','$course','$uni','$city','$start','$end')";
+    $sql = "insert into Education_tbl values(ED_Id,'$_SESSION[user_id]','$course','$uni','$city','$start','$end')";
     $data = mysqli_query($con, $sql);
     echo "<script>  var x = document.getElementById('exp');var y = document.getElementById('edu');x.style.display = 'block';y.style.display = 'none';</script>";
 }
@@ -241,10 +241,10 @@ if (isset($_POST['saveExp'])) {
     $skills = $_POST['skills'];
 
     foreach ($skills as $skill) {
-        $sql1 = "insert into User_Skill_tbl values(US_Id,'$_SESSION[user__id]','$skill')";
+        $sql1 = "insert into User_Skill_tbl values(US_Id,'$_SESSION[user_id]','$skill')";
         $data1 = mysqli_query($con, $sql1);
     }
-    $sql2 = "insert into experience_tbl values(EX_Id,'$_SESSION[user__id]','$year','$iscrnt','$com','$city','$desg','$start','$end','$salary')";
+    $sql2 = "insert into experience_tbl values(EX_Id,'$_SESSION[user_id]','$year','$iscrnt','$com','$city','$desg','$start','$end','$salary')";
     $data2 = mysqli_query($con, $sql2);
     if ($data2 && $data1) {
         echo "<script> location.replace('profile.php');</script>";

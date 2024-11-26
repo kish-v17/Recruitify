@@ -189,7 +189,7 @@ if (isset($_POST['submit'])) {
     $j_pro = $ip2 . basename($_FILES['j-img']['name']);
 
     if (move_uploaded_file($_FILES['j-img']['tmp_name'], $j_img)) {
-        $sql = "insert into Job_List_tbl values(J_Id,'$_SESSION[user__id]','$title',NOW(),'$desc','$com','$type','$reqs','$benefit','$salary','$j_pro','$city','$state','$country')";
+        $sql = "insert into Job_List_tbl values(J_Id,'$_SESSION[user_id]','$title',NOW(),'$desc','$com','$type','$reqs','$benefit','$salary','$j_pro','$city','$state','$country')";
         $data = mysqli_query($con, $sql);
         if ($data) {
             echo "<script> location.replace('job-listings.php');</script>";

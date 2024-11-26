@@ -329,8 +329,7 @@ Bootstrap 5 HTML CSS Template
 
                     <div class="col-lg-4 col-12 ms-auto">
                         <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
-                            <a href="#" class="custom-btn custom-border-btn btn me-4">Create an account</a>
-
+                            <a href="register.php" class="custom-btn custom-border-btn btn me-4">Create an account</a>
                             <a href="#" class="custom-link">Post a job</a>
                         </div>
                     </div>

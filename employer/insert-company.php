@@ -171,7 +171,7 @@ if (isset($_POST['submit'])) {
     $c_img = $ip . basename($_FILES['c-img']['name']);
 
     if (move_uploaded_file($_FILES['c-img']['tmp_name'], $c_img)) {
-        $sql = "insert into Company_tbl values(C_Id,'$_SESSION[user__id]','$cname','$cdesc','$stream','$esty','$web','$city','$state','$country','$mob','$email','$c_img')";
+        $sql = "insert into Company_tbl values(C_Id,'$_SESSION[user_id]','$cname','$cdesc','$stream','$esty','$web','$city','$state','$country','$mob','$email','$c_img')";
         $data = mysqli_query($con, $sql);
         if ($data) {
             echo "<script> location.replace('job-post.php');</script>";

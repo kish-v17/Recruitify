@@ -90,8 +90,8 @@ include '../db-connect.php';
                     <?php
 
 
-                    if ($_SESSION['user__id']) {
-                        $sql = "select * from User_tbl where U_Id='$_SESSION[user__id]'";
+                    if ($_SESSION['user_id']) {
+                        $sql = "select * from User_tbl where U_Id='$_SESSION[user_id]'";
                         $data = mysqli_query($con, $sql);
                         $result = mysqli_fetch_array($data);
 
@@ -348,7 +348,7 @@ if (isset($_POST['update'])) {
     $country = $_POST['country'];
 
 
-    $sql = "update User_tbl set U_Name='$name', U_Email='$email', U_DOB='$dob', U_Gender='$gender', U_City='$city', U_Country='$country', U_Mobile='$mob' where U_Id='$_SESSION[user__id]'";
+    $sql = "update User_tbl set U_Name='$name', U_Email='$email', U_DOB='$dob', U_Gender='$gender', U_City='$city', U_Country='$country', U_Mobile='$mob' where U_Id='$_SESSION[user_id]'";
     $data = mysqli_query($con, $sql);
     if ($data) {
         echo "<script> location.replace('profile.php');</script>";
@@ -365,7 +365,7 @@ if (isset($_POST['change'])) {
     $img = $ip . basename($_FILES['img']['name']);
     $img2 = $ip2 . basename($_FILES['img']['name']);
     if (move_uploaded_file($_FILES['img']['tmp_name'], $img)) {
-        $sql = "update User_tbl set U_Image='$img2' where U_Id='$_SESSION[user__id]'";
+        $sql = "update User_tbl set U_Image='$img2' where U_Id='$_SESSION[user_id]'";
         $data = mysqli_query($con, $sql);
         if ($data) {
             echo "<script> location.replace('profile.php');</script>";

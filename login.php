@@ -51,25 +51,25 @@ include_once("navbar.php");
 
 </html>
 <?php include 'footer.php';
-include 'db-connect.php';
 if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $pass = $_POST['password'];
-    $sql = "select * from User_tbl where U_Email='$email' and U_password='$pass' ";
+    $sql = "select * from Users_tbl where Email='$email' and Password='$pass' ";
     $data = mysqli_query($con, $sql);
     if (mysqli_num_rows($data)) {
         $result = mysqli_fetch_array($data);
-        $_SESSION["user__id"] = $result['U_Id'];
+        $_SESSION["user_id"] = $result['User_Id'];
 
-        if ($result['U_Type_Id'] == 1) //admin
+        if ($result['User_Type'] == "Admin") //admin
         {
             echo "<script>location.replace('admin');</script>";
-        } else if ($result['U_Type_Id'] == 2) {
+        } else if ($result['User_Type'] == "Jobseeker") {
             echo "<script>location.replace('jobseeker');</script>";
         } else {
             echo "<script>location.replace('employer');</script>";
         }
-    } else
+    } else{
         echo "<script>alert('incorrect details');</script>";
+    }
 }
 ?>

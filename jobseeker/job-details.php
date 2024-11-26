@@ -436,7 +436,7 @@ Bootstrap 5 HTML CSS Template
         <?php  
             include '../db-connect.php';
             if(isset($_POST['apply'])){
-                $sql3="insert into applications_tbl values(A_Id,'$j_id','$_SESSION[user__id]',NOW())";
+                $sql3="insert into applications_tbl values(A_Id,'$j_id','$_SESSION[user_id]',NOW())";
                 $dt=mysqli_query($con,$sql3);
                 if($dt)
                 {

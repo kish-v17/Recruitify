@@ -1,6 +1,5 @@
 <?php
-include '../db-connect.php';
-//error_reporting(0);
+include '../db/db-connect.php';
 ?>
 
 <!DOCTYPE html>
@@ -31,24 +30,17 @@ include '../db-connect.php';
             <div class="collapse navbar-collapse" id="navbarNav" style="margin-left:-20px">
                 <ul class="navbar-nav align-items-center ms-lg-5">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Homepage</a>
+                        <a class="nav-link" href="index.php">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="about.php">About Recruitify</a>
+                        <a class="nav-link" href="job-listings.php">Browse Jobs</a>
                     </li>
 
-
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                            <li><a class="dropdown-item" href="job-listings.php">Browse Jobs</a></li>
-
-                            <li><a class="dropdown-item" href="job-applied.php">Applied Jobs</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.php">About us</a>
                     </li>
+
 
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
@@ -58,11 +50,11 @@ include '../db-connect.php';
 
 
                     if ($_SESSION['user_id']) {
-                        $sql = "select U_Name,U_Image from User_tbl where U_Id='$_SESSION[user_id]'";
+                        $sql = "select Name, Image from Users_tbl where User_Id='$_SESSION[user_id]'";
                         $data = mysqli_query($con, $sql);
                         $result = mysqli_fetch_array($data);
-                        $_SESSION["username"] = $result['U_Name'];
-                        $img = $result['U_Image'];
+                        $_SESSION["username"] = $result['Name'];
+                        $img = $result['Image'];
                         if (isset($_SESSION['username'])) {
                             $use = $_SESSION['username'];
                         }
@@ -72,7 +64,7 @@ include '../db-connect.php';
                                 <a class="nav-link dropdown-toggle" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="avatar-image img-fluid"  style="border:5px solid lightgray;height:55px;width:55px" src="../' . $img . '" alt="Image" href="profile.php">&ensp;' . $use . '</a>
                                 <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
                             <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
-                            <li><a class="dropdown-item" href="settings.php">Settings</a></li>
+                            <li><a class="dropdown-item" href="job-applied.php">Applied jobs</a></li>
                             <li><a class="dropdown-item" href="../logout.php">Log out</a></li>
                         </ul>
                         </li>';
@@ -91,8 +83,8 @@ include '../db-connect.php';
         </div>
     </nav>
     <?php
-        if (isset($_COOKIE['success']) || isset($_COOKIE['error'])) {
-            $message = isset($_COOKIE['success']) ? $_COOKIE['success'] : $_COOKIE['error'];
+        // if (isset($_COOKIE['success']) || isset($_COOKIE['error'])) {
+        //     $message = isset($_COOKIE['success']) ? $_COOKIE['success'] : $_COOKIE['error'];
 
     //         echo '
     // <div class="toast-container position-fixed end-0 p-3 ">
@@ -112,17 +104,17 @@ include '../db-connect.php';
     //         toast.show();
     //     };
     // </script>';
-    echo '
-        <div class="alert ' . (isset($_COOKIE['success']) ? 'alert-success' : 'alert-danger') . '" role="alert" id="myAlert">
-            '.$message.'
-        </div>
-        <script>
-            setTimeout(()=>{
-                const alert = bootstrap.Alert.getOrCreateInstance("#myAlert");
-                alert.close();
-            },3000);
-        </script>
-        ';
-        }
+    // echo '
+    //     <div class="alert ' . (isset($_COOKIE['success']) ? 'alert-success' : 'alert-danger') . '" role="alert" id="myAlert">
+    //         '.$message.'
+    //     </div>
+    //     <script>
+    //         setTimeout(()=>{
+    //             const alert = bootstrap.Alert.getOrCreateInstance("#myAlert");
+    //             alert.close();
+    //         },3000);
+    //     </script>
+    //     ';
+    //     }
 
         ?>

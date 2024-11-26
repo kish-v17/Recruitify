@@ -57,8 +57,8 @@ include '../db-connect.php';
                     <?php
 
 
-                    if ($_SESSION['user__id']) {
-                        $sql = "select U_Name,U_Image from User_tbl where U_Id='$_SESSION[user__id]'";
+                    if ($_SESSION['user_id']) {
+                        $sql = "select U_Name,U_Image from User_tbl where U_Id='$_SESSION[user_id]'";
                         $data = mysqli_query($con, $sql);
                         $result = mysqli_fetch_array($data);
                         $_SESSION["username"] = $result['U_Name'];

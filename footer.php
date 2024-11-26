@@ -176,6 +176,7 @@ Bootstrap 5 HTML CSS Template
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/counter.js"></script>
         <script src="js/custom.js"></script>
+        <script src="js/validations.js"></script>
 
 </body>
 </html>

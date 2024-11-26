@@ -35,8 +35,8 @@ include_once("navbar.php");
                                 <center>
                                     <b style="font-size:25px"><label for="type">Register as<font>*</font></label>
                                         <div class="form-control">
-                                            <label><input type="radio" name="utype" id="utype" value="2" required> Job seeker &emsp;</label>
-                                            &emsp;<label><input type="radio" name="utype" id="utype" value="3" required> Employer</label>
+                                            <label><input type="radio" name="utype" id="utype" value="Jobseeker" required> Job seeker &emsp;</label>
+                                            &emsp;<label><input type="radio" name="utype" id="utype" value="Employer" required> Employer</label>
                                         </div>
                                     </b>
                                 </center>
@@ -103,7 +103,12 @@ include_once("navbar.php");
                                 <label for="conpassword">Confirm Password<font>*</font></label>
                                 <input type="password" name="conpassword" id="conpassword" class="form-control" placeholder="Confirm Password" required minlength="8">
                             </div>
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <label for="Profile">Profile Photo<font>*</font></label>
 
+                                <input type="file" accept="image/jpeg,image/png,image/jpg" name="img" id="img" class="form-control" required>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-12"></div>
 
                             <div class="col-lg-4 col-md-4 col-6 mx-auto">
                                 <button type="submit" class="form-control" name="submit">Register</button>
@@ -143,107 +148,86 @@ if (isset($_POST['submit'])) {
     $country = $_POST['country'];
     $pass = $_POST['password'];
 
-    $_SESSION['user_data'] = [
-        'utype' => $utype,
-        'name' => $name,
-        'email' => $email,
-        'dob' => $dob,
-        'gender' => $gender,
-        'city' => $city,
-        'mob' => $mob,
-        'state' => $state,
-        'country' => $country,
-        'pass' => $pass
-    ];
+    $image = uniqid("",true) . $_FILES['img']['name'];
+    $image_tmp = $_FILES['img']['tmp_name'];
+    $image_folder = 'images/user-img/user-profile/' . $image;
 
-    $email_check_query = "SELECT * FROM User_tbl WHERE U_Email = '$email' LIMIT 1";
+    $email_check_query = "SELECT * FROM Users_tbl WHERE Email = '$email' LIMIT 1";
     $result = mysqli_query($con, $email_check_query);
-    $user = mysqli_fetch_assoc($result);
 
-    if ($user) {
-        if ($user['Active_Status'] == 1) {
-            setcookie('success', 'Your account already exists.', time() + 5, "/");
-            header("Location:login.php");
-            exit();
-        }
+    if (mysqli_num_rows($result)) {
+        echo "<script>alert('Your account already exists.');
+        location.replace('login.php');
+        </script>";
+        exit();
     }
-    $mail = new PHPMailer(true);
+    else if (move_uploaded_file($image_tmp, $image_folder)) {
+        $_SESSION['user_data'] = [
+            'utype' => $utype,
+            'name' => $name,
+            'email' => $email,
+            'dob' => $dob,
+            'gender' => $gender,
+            'city' => $city,
+            'mob' => $mob,
+            'state' => $state,
+            'country' => $country,
+            'pass' => $pass,
+            'image' => $image_folder
+        ];
 
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'purebitegroceryshop@gmail.com';
-        $mail->Password = 'ojpb rwba znvs mjac';
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = '587';
+    
+    
+        $mail = new PHPMailer(true);
 
-        $mail->setFrom('purebitegroceryshop@gmail.com');
-        $mail->addAddress($email, $name);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'purebitegroceryshop@gmail.com';
+            $mail->Password = 'ojpb rwba znvs mjac';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = '587';
 
-        $mail->isHTML(true);
-        $mail->Subject = 'Email Verification';
-        $otp = rand(100000, 999999);
-        $_SESSION['otp'] = $otp;
-        $_SESSION['otp_expiration'] = time() + 120;
+            $mail->setFrom('purebitegroceryshop@gmail.com');
+            $mail->addAddress($email, $name);
 
-        $body = "<html>
-                            <body>
-                                <h2>Email Verification</h2>
-                                <p>Dear {$_SESSION['user_data']['fname']},</p>
-                                <p>Your OTP for email verification is: <strong>$otp</strong></p>
-                                <p>This OTP will expire in 5 minutes.</p>
-                                <p>If you didn't request this, please ignore this email.</p>
-                            </body>
-                        </html>";
+            $mail->isHTML(true);
+            $mail->Subject = 'Email Verification';
+            $otp = rand(100000, 999999);
+            $_SESSION['otp'] = $otp;
+            $_SESSION['otp_expiration'] = time() + 120;
 
-        $mail->Body = $body;
+            $body = "<html>
+                                <body>
+                                    <h2>Email Verification</h2>
+                                    <p>Dear {$_SESSION['user_data']['fname']},</p>
+                                    <p>Your OTP for email verification is: <strong>$otp</strong></p>
+                                    <p>This OTP will expire in 5 minutes.</p>
+                                    <p>If you didn't request this, please ignore this email.</p>
+                                </body>
+                            </html>";
 
-        if (!$mail->send()) {
-            setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5, "/");
-        } else {
-            setcookie('success', 'Email sent successfully. Please check your inbox for OTP.', time() + 5, "/");
+            $mail->Body = $body;
+
+            if (!$mail->send()) {
+                setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5, "/");
+            } else {
+                setcookie('success', 'Email sent successfully. Please check your inbox for OTP.', time() + 5, "/");
+            }
+        } catch (Exception $e) {
+            echo "<script>alert('Error in sending email: " . $mail->ErrorInfo."')</script>";
         }
-    } catch (Exception $e) {
-        setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5, "/");
+        
+        echo "<script> location.replace('otp-page.php');</script>";
+    } else {
+        echo "<script>alert('Image upload failed.');</script>";
     }
-
-
-
-    echo "<script> location.replace('otp-page.php');</script>";
 }
 
 
-// error_reporting(0);
-// $ip="images/user-img/user-profile/";
-// if(isset($_POST['submit']))
-// {
-//     $utype=$_POST['utype'];
-// 	$name=$_POST['full-name'];
-// 	$email=$_POST['email'];
-// 	$dob=$_POST['dob'];
-// 	$gender=$_POST['gender'];
-// 	$city=$_POST['city'];
-//     $mob=$_POST['mobile'];
-//     $state=$_POST['state'];
-//     $country=$_POST['country'];
-//     $img=$ip.basename($_FILES['img']['name']);
-// 	$pass=$_POST['password'];
-//     if(move_uploaded_file($_FILES['img']['tmp_name'],$img))
-//     {
-//         $sql="insert into User_tbl values(U_Id,'$utype','$name','$email','$dob','$gender','$city','$state','$country','$mob','$img','$pass',NOW())";
-//         $data=mysqli_query($con,$sql);
-// 	    if($data)
-//         {
-//             echo "<script> location.replace('login.php');</script>";
-//         }
-//         else{
-// 		    echo "errorrr";
-// 	    }
-//     }
-//     else echo"error in uploading file"; 
-// }  
-include 'footer.php';
 ?>
+
+
 
 </html>
