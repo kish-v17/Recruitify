@@ -1,6 +1,5 @@
 <?php
-include '../db-connect.php';
-//error_reporting(0);
+include '../db/db-connect.php';
 ?>
 
 <!DOCTYPE html>
@@ -31,23 +30,15 @@ include '../db-connect.php';
             <div class="collapse navbar-collapse" id="navbarNav" style="margin-left:-20px">
                 <ul class="navbar-nav align-items-center ms-lg-5">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Homepage</a>
+                        <a class="nav-link" href="index.php">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="about.php">About Recruitify</a>
+                        <a class="nav-link" href="job-listings.php">Manage Jobs</a>
                     </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                            <li><a class="dropdown-item" href="job-listings.php">Your Uploads</a></li>
-
-                            <li><a class="dropdown-item" href="job-post.php">Add New Jobs</a></li>
-
-                            <li><a class="dropdown-item" href="insert-company.php">Add Company</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.php">About us</a>
                     </li>
 
                     <li class="nav-item">
@@ -58,11 +49,11 @@ include '../db-connect.php';
 
 
                     if ($_SESSION['user_id']) {
-                        $sql = "select U_Name,U_Image from User_tbl where U_Id='$_SESSION[user_id]'";
+                        $sql = "select Name,Image from Users_tbl where User_Id='$_SESSION[user_id]'";
                         $data = mysqli_query($con, $sql);
                         $result = mysqli_fetch_array($data);
-                        $_SESSION["username"] = $result['U_Name'];
-                        $img = $result['U_Image'];
+                        $_SESSION["username"] = $result['Name'];
+                        $img = $result['Image'];
                         if (isset($_SESSION['username'])) {
                             $use = $_SESSION['username'];
                         }

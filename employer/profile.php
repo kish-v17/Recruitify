@@ -1,9 +1,3 @@
-<?php
-include '../db-connect.php';
-
-//error_reporting(0);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,87 +39,7 @@ include '../db-connect.php';
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.php">
-                <img src="../images/logo.png" class="img-fluid logo-image">
-
-                <div class="d-flex flex-column">
-                    <strong class="logo-text">Recruitify</strong>
-                    <small class="logo-slogan">Online Job Portal</small>
-                </div>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav align-items-center ms-lg-5">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Homepage</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.php">About Recruitify</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="job-listings.php">Job Listings</a>
-                    </li>
-
-                    <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-
-                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                <li><a class="dropdown-item" href="job-listings.php">Job Listings</a></li>
-
-                                <li><a class="dropdown-item" href="job-details.php">Job Details</a></li>
-                            </ul>
-                        </li> -->
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
-                    </li>
-                    <?php
-
-
-                    if ($_SESSION['user_id']) {
-                        $sql = "select * from User_tbl where U_Id='$_SESSION[user_id]'";
-                        $data = mysqli_query($con, $sql);
-                        $result = mysqli_fetch_array($data);
-
-                        switch ($result['U_Gender']) {
-                            case 'Male':
-                                $ck1 = 'checked';
-                                $ck2 = '';
-                                $ck3 = '';
-                                break;
-                            case
-                            'Female':
-                                $ck1 = '';
-                                $ck2 = 'checked';
-                                $ck3 = '';
-                                break;
-                            case 'Other':
-                                $ck1 = '';
-                                $ck2 = '';
-                                $ck3 = 'checked';
-                                break;
-                        }
-
-                        echo '  <li class="nav-item ms-lg-auto">
-                                <a class="nav-link"><img class="avatar-image img-fluid"  src="../' . $result['U_Image'] . '" alt="Image"></a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link custom-btn btn" href="../logout.php">Log out</a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
+    <?php include "navbar.php"; ?>
         <main>
             <header class="site-header">
                 <div class="section-overlay"></div>
@@ -144,13 +58,40 @@ include '../db-connect.php';
                 </div>
             </header>
 
-            
+            <?php
+                if ($_SESSION['user_id']) {
+                        $sql = "select C.*, U.*, B.*, C.Name as 'Company_Name', CONCAT(B.City, ', ', B.State, ', ', B.Country) as 'Address' from company_tbl C 
+                        inner join Users_tbl U on C.Company_Id = U.Company_Id
+                        inner join branch_tbl B on B.Branch_Id =  U.Branch_Id
+                        where User_Id=".$_SESSION['user_id'];
+                        $data = mysqli_query($con, $sql);
+                        $result = mysqli_fetch_array($data);
+
+                        switch ($result['Gender']) {
+                            case 'Male':
+                                $ck1 = 'checked';
+                                $ck2 = '';
+                                $ck3 = '';
+                                break;
+                            case
+                            'Female':
+                                $ck1 = '';
+                                $ck2 = 'checked';
+                                $ck3 = '';
+                                break;
+                            case 'Other':
+                                $ck1 = '';
+                                $ck2 = '';
+                                $ck3 = 'checked';
+                                break;
+                        }
+            ?>
             <section class="contact-section section-padding">
                 <div class="container">
                     <div class="row justify-content-center">
                       
                     <div class="col-lg-4 col-md-4 col-6 mx-auto" >
-                        <center><img height="350px" width="350px" style="object-fit: cover;border-radius:50%;"  src="../' . $result['U_Image'] . '" alt="Image">
+                        <center><img height="350px" width="350px" style="object-fit: cover;border-radius:50%;"  src="../<?= $result['Image'] ?>" alt="Image">
                         <br/><br/>
                         <button class="custom-btn btn ms-lg-auto" style="width:100%" onclick="showForm()" href="#change"><i class="fa fa-file-image-o"></i>&ensp;<b>Change Profile</b></button> &ensp;&ensp;</center>
                     
@@ -176,49 +117,57 @@ include '../db-connect.php';
                                         <p class="mb-0">
                                             <span class="contact-info-small-title">Username</span>
 
-                                            ' . $result['U_Name'] . '
+                                            <?= $result['Name'] ?>
                                         </p>
                                     </div>
 
                                     <div class="contact-info d-flex align-items-center">
                                         <p class="mb-0">
                                             <span class="contact-info-small-title">Email</span>
-
-                                            ' . $result['U_Email'] . '
+                                            <?= $result['Email'] ?>
                                         </p>
                                     </div>
 
                                     <div class="contact-info d-flex align-items-center">
                                         <p class="mb-0">
                                             <span class="contact-info-small-title">Mobile</span>
-
-                                            ' . $result['U_Mobile'] . '
+                                            <?= $result['Mobile'] ?>
                                         </p>
                                     </div>
 
                                     <div class="contact-info d-flex align-items-center">
                                         <p class="mb-0">
                                             <span class="contact-info-small-title">Gender</span>
-
-                                            ' . $result['U_Gender'] . '
+                                            <?= $result['Gender'] ?>
                                         </p>
                                     </div>
 
                                     <div class="contact-info d-flex align-items-center">
                                         <p class="mb-0">
                                             <span class="contact-info-small-title">Date of Birth</span>
-
-                                            ' . $result['U_DOB'] . '
+                                            <?= $result['DOB'] ?>
                                         </p>
                                     </div>
 
                                     <div class="contact-info d-flex align-items-center">
                                         <p class="mb-0">
                                             <span class="contact-info-small-title">Address</span>
-
-                                            ' . $result['U_City'] . ',' . $result['U_State'] . ',' . $result['U_Country'] . '
+                                            <?= $result['City'].' , '.$result['State'].' '.$result['Country'] ?>
                                         </p>
-                                    </div>   
+                                    </div>  
+                                    <div class="contact-info d-flex align-items-center">
+                                        <p class="mb-0">
+                                            <span class="contact-info-small-title">Company</span>
+                                            <?= $result['Company_Name'] ?>
+                                        </p>
+                                    </div>
+                                    <div class="contact-info d-flex align-items-center">
+                                        <p class="mb-0">
+                                            <span class="contact-info-small-title">Company Address</span>
+                                            <?= $result['Address'] ?>
+                                        </p>
+                                    </div></center>
+ 
                                 </div><br/>
                                 <center>
                                     <button onclick="showForm(2)" id="form" class="custom-btn btn ms-lg-auto" ><i class="fa fa-edit" style="font-size:18px"></i>&ensp;<b>Update Information</b></button>
@@ -241,48 +190,84 @@ include '../db-connect.php';
                         <div class="col-lg-12 col-12">
                             <label for="first-name">Full Name</label>
 
-                            <input type="text" name="full-name" id="full-name" class="form-control" value=' . $result['U_Name'] . ' >
+                            <input type="text" name="full-name" id="full-name" class="form-control" value='<?= $result["Name"] ?>' >
                         </div>
 
-                        <div class="col-lg-6 col-md-6 col-12">
+                        <!-- <div class="col-lg-6 col-md-6 col-12">
                             <label for="email">Email Address</label>
 
-                                <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" value=' . $result['U_Email'] . ' >
-                        </div>
+                            <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" value='<?= $result["Email"] ?>' >
+                        </div> -->
 
                         <div class="col-lg-6 col-md-6 col-12">
                             <label for="dob">Date of Birth</label>
 
-                            <input type="date" name="dob" id="dob" class="form-control" value=' . $result['U_DOB'] . '>
+                            <input type="date" name="dob" id="dob" class="form-control" value='<?= $result["DOB"] ?>'>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-12">
                             <label for="gender">Gender</label>
                             <div class="form-control">
-                                <label><input type="radio" name="gender" id="gender" value="Male" ' . $ck1 . '/> Male &emsp;</label>
-                                <label><input type="radio" name="gender" id="gender" value="Female" ' . $ck2 . '/> Female &emsp;</label>
-                                <label><input type="radio" name="gender" id="gender" value="Other" ' . $ck3 . '/> Other</label>
+                                <label><input type="radio" name="gender" id="gender" value="Male" <?= $ck1 ?>/> Male &emsp;</label>
+                                <label><input type="radio" name="gender" id="gender" value="Female" <?= $ck2 ?>/> Female &emsp;</label>
+                                <label><input type="radio" name="gender" id="gender" value="Other" <?= $ck3 ?>/> Other</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-12">
                             <label for="mobile" style="display:block">Mobile</label>
     
-                            <input type="tel" name="mobile" id="mobile" class="form-control" value=' . $result['U_Mobile'] . ' pattern={0-9}[10]>
+                            <input type="tel" name="mobile" id="mobile" class="form-control" value='<?= $result["Mobile"] ?>' pattern={0-9}[10]>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-12">
                             <label for="city">City</label>
 
-                            <input type="text" name="city" id="city" class="form-control" value=' . $result['U_City'] . '>
+                            <input type="text" name="city" id="city" class="form-control" value='<?= $result["City"] ?>'>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <label for="state">State</label>
+
+                            <input type="text" name="state" id="state" class="form-control" value='<?= $result["State"]?>'>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-12">
                             <label for="country">Country</label>
 
-                            <input type="text" name="country" id="country" class="form-control" value=' . $result['U_Country'] . '>
+                            <input type="text" name="country" id="country" class="form-control" value='<?= $result["Country"]?>'>
                         </div>
-                        
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <label for="company">Company</label>
+                            <select name="company" id="company" class="form-control">
+                            <?php
+                                $query = "SELECT Company_Id, Name FROM company_tbl";
+                                $data = mysqli_query($con, $query);
+                                echo '<option value="">Select Company</option>';
+                                if ($data && mysqli_num_rows($data) > 0) {
+                                    while ($row = mysqli_fetch_assoc($data)) {
+                                        echo '<option value="' . $row['Company_Id'] . '" >' . $row['Name'] . '</option>';
+                                    }
+                                }  
+                            ?>
+                            </select>
+                            <p class="d-flex justify-content-center">
+                                Can't find your company? 
+                                <a href="add-company.php" class="ms-2">Add Company</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <label for="branch">Branch</label>
+                            <select name="branch" id="branch" class="form-control" >
+                                <option value="">Select Branch</option>
+                            </select>
+                            <p class="d-flex justify-content-center">
+                                Can't find your branch? 
+                                <a href="add-branch.php" class="ms-2">Add Branch</a>
+                            </p>
+                        </div>
+
                         <div class="col-lg-4 col-md-4 col-6 mx-auto">
                             <button type="submit" class="form-control" name="update">Update</button>
                         </div>
@@ -292,8 +277,7 @@ include '../db-connect.php';
         </div>        
     </div>            
 </section>
-';
-                    } ?>
+                    <?php } ?>
 
                     <section class="cta-section">
                         <div class="section-overlay"></div>
@@ -329,31 +313,65 @@ include '../db-connect.php';
             }
         }
     }
+    document.addEventListener('DOMContentLoaded', () => {
+        const companyDropdown = document.getElementById('company');
+        const branchDropdown = document.getElementById('branch');
+
+        // Listen for changes in the company dropdown
+        companyDropdown.addEventListener('change', () => {
+            const companyId = companyDropdown.value; // Get selected company ID
+
+            if (companyId) {
+                fetch('../php/fetch-branches.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `company_id=${companyId}`,
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text(); // Parse response as text
+                    })
+                    .then((data) => {
+                        // Populate the branch dropdown with received options
+                        console.log(data); // Debug the response here
+                        branchDropdown.innerHTML = data;
+                    })
+                    .catch((error) => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            } else {
+                branchDropdown.innerHTML = '<option value="">Select Branch</option>';
+            }
+        });
+    });
 </script>
 
 </html>
 
 <?php
 
-// error_reporting(0);
-
 if (isset($_POST['update'])) {
-
     $name = $_POST['full-name'];
-    $email = $_POST['email'];
     $dob = $_POST['dob'];
     $gender = $_POST['gender'];
     $city = $_POST['city'];
-    $mob = $_POST['mobile'];
+    $state = $_POST['state'];
     $country = $_POST['country'];
+    $mobile = $_POST['mobile'];
+    $company_id = $_POST['company'];
+    $branch_id = $_POST['branch'];
 
+    $query = " UPDATE users_tbl SET Name='$name', DOB='$dob', Gender='$gender', City='$city', State='$state', Country='$country', Mobile='$mobile', Company_Id=" . ($company_id ? "'$company_id'" : "NULL") . ", Branch_Id=" . ($branch_id ? "'$branch_id'" : "NULL") . " WHERE User_Id=".$_SESSION["user_id"];
 
-    $sql = "update User_tbl set U_Name='$name', U_Email='$email', U_DOB='$dob', U_Gender='$gender', U_City='$city', U_Country='$country', U_Mobile='$mob' where U_Id='$_SESSION[user_id]'";
-    $data = mysqli_query($con, $sql);
-    if ($data) {
-        echo "<script> location.replace('profile.php');</script>";
+    // Execute query
+    if (mysqli_query($con, $query)) {
+        echo "<script>alert('Profile updated successfully!'); location.replace('profile.php');</script>";
     } else {
-        echo "errorrr";
+        echo "Error: " . mysqli_error($con);
     }
 }
 
@@ -365,7 +383,7 @@ if (isset($_POST['change'])) {
     $img = $ip . basename($_FILES['img']['name']);
     $img2 = $ip2 . basename($_FILES['img']['name']);
     if (move_uploaded_file($_FILES['img']['tmp_name'], $img)) {
-        $sql = "update User_tbl set U_Image='$img2' where U_Id='$_SESSION[user_id]'";
+        $sql = "update Users_tbl set Image='$img2' where User_Id='$_SESSION[user_id]'";
         $data = mysqli_query($con, $sql);
         if ($data) {
             echo "<script> location.replace('profile.php');</script>";
