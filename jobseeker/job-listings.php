@@ -215,7 +215,7 @@ if (mysqli_num_rows($data)) {
         echo '<div class="col-lg-4 col-md-6 col-12">
                 <div class="job-thumb job-thumb-box">
                     <div class="job-image-box-wrap">
-                        <a href="job-details.php?j_id='.$result['Job_Id'].'">
+                        <a href="job-details.php?job_id='.$result['Job_Id'].'">
                             <img src="../'.$result['Image'].'" class="job-image img-fluid" style="object-fit: contain" alt="job-title-img">
                         </a>
                         
@@ -228,7 +228,7 @@ if (mysqli_num_rows($data)) {
 
                     <div class="job-body">
                         <h4 class="job-title">
-                            <a href="job-details.php?j_id='.$result['Job_Id'].'" class="job-title-link">'.$result['Title'].'</a>
+                            <a href="job-details.php?job_id='.$result['Job_Id'].'" class="job-title-link">'.$result['Title'].'</a>
                         </h4>
 
                         <div class="d-flex align-items-center">

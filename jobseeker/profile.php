@@ -49,22 +49,6 @@
         </div>
     </header>
 
-    <section class="contact-section section-padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <center>   
-                    <div class="col-lg-4 col-md-4 col-6 mx-auto mb-5" >
-                        <img height="350px" width="350px" style="object-fit: cover; border-radius:50%;" src="../images/profile.jpg" alt="Profile Image">
-                        <br/><br/>
-                        <button class="custom-btn btn ms-lg-auto" onclick="showForm()" href="#change"><i class="fa fa-file-image-o"></i>&ensp;<b>Change Profile</b></button> &ensp;&ensp;
-
-                        <form class="custom-form contact-form" enctype="multipart/form-data" method="post" role="form" id="change" style="display:none !important">
-                            <label for="Profile">Update Profile Photo</label>
-                            <input type="file" accept="image/jpeg,image/png,image/jpg" name="img" id="img" class="form-control" required>
-                            <button type="submit" class="custom-btn btn ms-lg-auto" name="change">Change Picture</button>
-                        </form>
-                    </div>
-                </center>
 
 <?php
 $query = "SELECT * FROM users_tbl WHERE User_Id=" . $_SESSION["user_id"];
@@ -88,6 +72,22 @@ $skillsQuery = "SELECT s.Skill_Name FROM user_skills_tbl us
                 WHERE us.User_Id = " . $_SESSION["user_id"];
 $skillsResult = mysqli_query($con, $skillsQuery);
 ?>
+<section class="contact-section section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <center>   
+                    <div class="col-lg-4 col-md-4 col-6 mx-auto mb-5" >
+                        <img height="150px" width="150px" style="object-fit: cover; border-radius:50%;" src="../<?= $user["Image"] ?>" alt="Profile Image">
+                        <br/><br/>
+                        <button class="custom-btn btn ms-lg-auto" onclick="showForm()" href="#change"><i class="fa fa-file-image-o"></i>&ensp;<b>Change Profile</b></button> &ensp;&ensp;
+
+                        <form class="custom-form contact-form" enctype="multipart/form-data" method="post" role="form" id="change" style="display:none !important">
+                            <label for="Profile">Update Profile Photo</label>
+                            <input type="file" accept="image/jpeg,image/png,image/jpg" name="img" id="img" class="form-control" required>
+                            <button type="submit" class="custom-btn btn ms-lg-auto" name="change">Change Picture</button>
+                        </form>
+                    </div>
+                </center>
    
 <!-- Personal Information -->
 <div class="row justify-content-center">

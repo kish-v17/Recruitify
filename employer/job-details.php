@@ -281,7 +281,7 @@ if (isset($_POST['update_status'])) {
                             <a href="view-applicant.php?user_id='.$applicant['User_Id'].'" class="custom-btn btn mt-2">View</a>
                         </form>
                     </div>
-                </div>
+        </div>
 
                 </div>
                 <hr>';

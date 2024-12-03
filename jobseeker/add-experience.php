@@ -129,6 +129,10 @@
                                         }  
                                     ?>
                                     </select>
+                                    <p class="d-flex justify-content-center">
+                                        Can't find your company? 
+                                        <a href="add-company.php" class="ms-2">Add Company</a>
+                                    </p>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-12">
@@ -136,6 +140,10 @@
                                     <select name="branch" id="branch" class="form-control" >
                                         <option value="">Select Branch</option>
                                     </select>
+                                    <p class="d-flex justify-content-center">
+                                        Can't find your branch? 
+                                        <a href="add-branch.php" class="ms-2">Add Branch</a>
+                                    </p>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="crntJob">Is this your current job?</label>
@@ -242,7 +250,7 @@ if (isset($_POST['exup'])) {
     $branch = $_POST['branch'];
     $desg = $_POST['desg'];
     $start = $_POST['start'];
-    $end = $_POST['end'] ==""?"NULL": $_POST['end'];
+    $end = $_POST['end'] ==""?"NULL": "'". $_POST['end'] ."'";
     $user_id = $_SESSION["user_id"];
     
     $sql = "INSERT INTO experience_tbl (User_Id, Is_Current, Company_Id, Branch_Id, Designation, Joining_Date, Leaving_Date) 
