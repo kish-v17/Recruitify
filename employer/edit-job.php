@@ -1,255 +1,158 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Job Posting</title>
-
-    <!-- CSS FILES -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;300;400;600;700&display=swap" rel="stylesheet">
-
+    <title>Update Job</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-
     <link href="../css/bootstrap-icons.css" rel="stylesheet">
-
-    <link href="../css/owl.carousel.min.css" rel="stylesheet">
-
-    <link href="../css/owl.theme.default.min.css" rel="stylesheet">
-
-    <link href="tooplate-Recruitify-job.css" rel="stylesheet">
-
-    <link rel="shortcut icon" type="image/x-icon" href="../images/logo.png" />
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-    <style>
-        font {
-            color: red;
-            font-weight: bold;
-        }
-
-        input[type="file"]::file-selector-button {
-            border-radius: 500px;
-        }
-
-        label {
-            font-weight: bold;
-            font-size: 18px
-        }
-    </style>
+    <link href="../css/tooplate-Recruitify-job.css" rel="stylesheet">
 </head>
+<body>
+    <?php include "navbar.php"; ?>
+    <?php
 
-<body id="top">
+    $user_id = $_SESSION['user_id'];
+    $job_id = $_GET['job_id']; // Get the Job_Id from the URL
 
-    <?php include 'navbar.php'; ?>
+    // Fetch company and branch ID for the logged-in employer
+    $query = "SELECT Company_Id, Branch_Id FROM users_tbl WHERE User_Id = '$user_id'";
+    $result = mysqli_query($con, $query);
 
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user_data = mysqli_fetch_assoc($result);
+        $company_id = $user_data['Company_Id'];
+        $branch_id = $user_data['Branch_Id'];
+    } else {
+        die("Error fetching company details.");
+    }
+
+    // Fetch the existing job data based on Job_Id
+    $job_query = "SELECT * FROM job_list_tbl WHERE Job_Id = '$job_id' AND Company_Id = '$company_id'";
+    $job_result = mysqli_query($con, $job_query);
+
+    if ($job_result && mysqli_num_rows($job_result) > 0) {
+        $job_data = mysqli_fetch_assoc($job_result);
+    } else {
+        die("Error fetching job details.");
+    }
+
+    $ip = "../images/jobs/"; // Path for storing images
+    $ip2 = "images/jobs/";  // Path for displaying images
+
+    if (isset($_POST['update-job'])) {
+        $title = $_POST['title'];
+        $description = $_POST['description'];
+        $type = $_POST['type'];
+        $requirements = $_POST['requirements'];
+        $benefits = $_POST['benefits'];
+        $salary = $_POST['salary'];
+        $is_internship = isset($_POST['is_internship']) ? 1 : 0;
+
+        // If a new image is uploaded
+        if ($_FILES['job_image']['name']) {
+            $img = $ip . basename($_FILES['job_image']['name']);
+            $img2 = $ip2 . basename($_FILES['job_image']['name']);
+            if (move_uploaded_file($_FILES['job_image']['tmp_name'], $img)) {
+                $update_query = "UPDATE job_list_tbl SET 
+                    Title = '$title', 
+                    Description = '$description', 
+                    Type = '$type', 
+                    Requirements = '$requirements', 
+                    Benefits = '$benefits', 
+                    Salary = '$salary', 
+                    Image = '$img2', 
+                    Is_Internship = '$is_internship' 
+                    WHERE Job_Id = '$job_id'";
+            } else {
+                echo "<script>alert('Error uploading job image.');</script>";
+            }
+        } else {
+            // If no new image, keep the existing one
+            $update_query = "UPDATE job_list_tbl SET 
+                Title = '$title', 
+                Description = '$description', 
+                Type = '$type', 
+                Requirements = '$requirements', 
+                Benefits = '$benefits', 
+                Salary = '$salary', 
+                Is_Internship = '$is_internship' 
+                WHERE Job_Id = '$job_id'";
+        }
+
+        if (mysqli_query($con, $update_query)) {
+            echo "<script>alert('Job updated successfully!'); window.location.href='job-listings.php';</script>";
+        } else {
+            echo "<script>alert('Error updating job in the database.');</script>";
+        }
+    }
+    ?>
     <main>
-
         <header class="site-header">
             <div class="section-overlay"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-12 text-center">
-                        <h1 class="text-white">Edit Job Details</h1>
-
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-
-                                <li class="breadcrumb-item active" aria-current="page">Edit Job Details</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
+            <div class="container text-center">
+                <h1 class="text-white">Update Job</h1>
             </div>
         </header>
-        <script>
-            function showForm(a) {
-                var x = document.getElementById('change');
-                if (x.style.display == 'none') {
-                    x.style.display = 'block';
-                } else {
-                    x.style.display = 'none';
-                }
-            }
-        </script>
-        <?php
-        include '../db-connect.php';
-        $j_id = $_GET['$j_id'];
-        //$sql="select * from Job_List_tbl where J_Id=$j_id";
-        $sql = "select * from Job_List_tbl where J_Id=$j_id";
-        $data = mysqli_query($con, $sql);
-        $result = mysqli_fetch_array($data);
-        ?>
-        <section class="contact-section" style="padding:50px">
+
+        <section class="section-padding">
             <div class="container">
-                <div class="row justify-content-center">
-                    <h2 class="text-center mb-4"> Edit Job Details</h2>
-
-                    <div class="col-lg-8 col-12 mx-auto" style="width:60%">
-                        <form class="custom-form contact-form" enctype="multipart/form-data" method="post" role="form">
-
-
-                            <div class="row">
-                                <div class="col-lg-12 col-12">
-                                    <label for="job-title">Job Title</label>
-
-                                    <input type="text" name="job-title" id="job-title" class="form-control" value="<?php echo $result['J_Title']; ?>">
-                                </div>
-
-                                <div class="col-lg-12 col-12">
-                                    <label for="job-desc">Description<font>*</font></label>
-                                    <textarea name="desc" id="desc" class="form-control"><?php echo $result['J_Desc']; ?></textarea>
-                                </div>
-
-                                <div class="col-lg-12 col-12">
-                                    <label for="job-reqs">Requirements<font>*</font></label>
-                                    <textarea name="reqs" id="reqs" class="form-control"><?php echo $result['J_Reqs']; ?></textarea>
-                                </div>
-
-                                <div class="col-lg-12 col-12">
-                                    <label for="job-desc">Benefits<font>*</font></label>
-                                    <textarea name="benefit" id="benefit" class="form-control"><?php echo $result['J_Benefits']; ?></textarea>
-                                </div>
-
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label for="company">Company</label> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <a href="insert-company.php" color="black">Add New Company</a></u>
-                                    <!--<input type="text" name="company" id="company" class="form-control" placeholder="Company">-->
-                                    <select class="form-select form-control" name="company" id="company" aria-label="Default select example">
-                                        <option disabled selected value>Company</option>
-                                        <?php $q = "select C_Id,C_Name from Company_tbl";
-                                        $d = mysqli_query($con, $q);
-                                        while ($r = mysqli_fetch_array($d)) {
-                                        ?>
-                                            <option <?php if ($r['C_Id'] == $result['J_Company_Id']) { ?> selected="selected" <?php } ?> value="<?php echo $r['C_Id']; ?>"><?php echo $r['C_Name']; ?>"</option>
-
-                                        <?php } ?>
-                                    </select>
-
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label for="type">Type</label>
-
-                                    <select class="form-select form-control" name="type" id="type" aria-label="Default select example">
-
-                                        <option value="Full Time" <?php if ($result['J_Type'] == 'Full Time') echo "selected"; ?>> Full Time</option>
-                                        <option value="Part Time" <?php if ($result['J_Type'] == 'Part Time') echo "selected"; ?>>Part Time</option>
-                                        <option value="Contract" <?php if ($result['J_Type'] == 'Contract') echo "selected"; ?>> Contract</option>
-                                        <option value="Internship" <?php if ($result['J_Type'] == 'Internship') echo "selected"; ?>> Internship</option>
-                                        <option value="Remote" <?php if ($result['J_Type'] == 'Remote') echo "selected"; ?>> Remote</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label for="salary">Salary</label>
-
-                                    <input type="number" name="salary" id="salary" class="form-control" value="<?php echo $result['J_Salary']; ?>">
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label for="city">City</label>
-
-                                    <input type="text" name="city" id="city" class="form-control" value="<?php echo $result['J_City']; ?>">
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label for="state">State</label>
-                                    <input type="text" name="state" id="state" class="form-control" value="<?php echo $result['J_State']; ?>">
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label for="">Country</label>
-                                    <input type="text" name="country" id="country" class="form-control" value="<?php echo $result['J_Country']; ?>">
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-6 mx-auto">
-                                    <button type="submit" class="form-control" name="submit">Save Changes</button>
-                                </div>
-                                <br /><br /><br />
-                            </div>
-                        </form>
+                <form class="custom-form contact-form row" method="post" enctype="multipart/form-data">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <label for="title">Job Title</label>
+                        <input type="text" name="title" id="title" class="form-control" value="<?php echo $job_data['Title']; ?>" required>
                     </div>
-                    <?php echo '
-                        <div class="col-lg-4 col-md-4 col-6 mx-auto" style="padding:20px 20px 0 20px;width:40%;align-items:center;justify-content:center;">
-                            <label for="job-title-img">&emsp;Job Title Image</label>
-                            <img class="job-image img-fluid" style="object-fit: cover; border-radius:40px;"  src="../' . $result['J_Image'] . '" alt="Image">
-                                <button onclick="showForm(1)" class="custom-btn btn ms-lg-auto" style="width:100%;font-size:20px"> <i class="fa fa-file-image-o"></i>&ensp;<b>Edit Title Image</b></button><br/><br/>
-                                    <br/>
-                                    
-    
-                                <form class="custom-form contact-form" enctype="multipart/form-data" method="post" role="form" id="change" style="padding-top:5px;display:none !important">
-                                    
-                                    <label for="Profile">Job Title Image</label>
 
-                                    <input type="file" accept="image/jpeg,image/png,image/jpg" name="j-img" id="img" class="form-control">
-                                
-                                
-                                    <center><button type="submit" class="custom-btn btn ms-lg-auto" name="change">Change Picture</button></center>
-                                        
-                                </form>
-                            </div>
-                    </div>       
-                </div>            
-            </section>
-            '; ?>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <label for="type">Job Type</label>
+                        <select name="type" id="type" class="form-select" required>
+                            <option value="Full-Time" <?php if ($job_data['Type'] == 'Full-Time') echo 'selected'; ?>>Full-Time</option>
+                            <option value="Part-Time" <?php if ($job_data['Type'] == 'Part-Time') echo 'selected'; ?>>Part-Time</option>
+                            <option value="Contract" <?php if ($job_data['Type'] == 'Contract') echo 'selected'; ?>>Contract</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-12 col-12">
+                        <label for="description">Job Description</label>
+                        <textarea name="description" id="description" rows="5" class="form-control" placeholder="Enter Job Description" required><?php echo $job_data['Description']; ?></textarea>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <label for="requirements">Requirements</label>
+                        <textarea name="requirements" id="requirements" rows="4" class="form-control" placeholder="Enter Job Requirements" required><?php echo $job_data['Requirements']; ?></textarea>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <label for="benefits">Benefits</label>
+                        <textarea name="benefits" id="benefits" rows="4" class="form-control" placeholder="Enter Job Benefits" required><?php echo $job_data['Benefits']; ?></textarea>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <label for="salary">Salary</label>
+                        <input type="number" name="salary" id="salary" class="form-control" value="<?php echo $job_data['Salary']; ?>" required>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <label for="job_image">Upload New Job Image (Optional)</label>
+                        <input type="file" name="job_image" id="job_image" class="form-control" accept="image/*">
+                        <p>Current Image: <img src="../<?php echo $job_data['Image']; ?>" alt="Job Image" width="100"></p>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <label for="is_internship">Is Internship?</label>
+                        <input type="checkbox" name="is_internship" id="is_internship" class="form-check-input" <?php if ($job_data['Is_Internship']) echo 'checked'; ?>>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-6 mx-auto">
+                        <button type="submit" class="form-control btn btn-primary" name="update-job">Update Job</button>
+                    </div>
+
+                </form>
+            </div>
+        </section>
     </main>
+
+    <?php include "footer.php"; ?>
+
+    <script src="../js/bootstrap.min.js"></script>
 </body>
-<?php
-include '../db-connect.php';
-include 'footer.php';
-//error_reporting(0);
-// ();
-$ip = "../images/user-img/job-profile/";
-$ip2 = "images/user-img/job-profile/";
-
-if (isset($_POST['change'])) {
-    $j_img = $ip . basename($_FILES['j-img']['name']);
-    $j_pro = $ip2 . basename($_FILES['j-img']['name']);
-
-    if (move_uploaded_file($_FILES['j-img']['tmp_name'], $j_img)) {
-        $sql = "update Job_List_tbl set J_Image='$j_pro' where J_Id='$j_id'";
-        $data = mysqli_query($con, $sql);
-        if ($data) {
-            echo "<script> location.replace('job-listings.php');</script>";
-        } else {
-            echo "errorrr";
-        }
-    } else echo "error in uploading file";
-}
-
-if (isset($_POST['submit'])) {
-    $title = $_POST['job-title'];
-    $desc = $_POST['desc'];
-    $reqs = $_POST['reqs'];
-    $benefit = $_POST['benefit'];
-    $com = $_POST['company'];
-    $type = $_POST['type'];
-    $salary = $_POST['salary'];
-    $city = $_POST['city'];
-    $state = $_POST['state'];
-    $country = $_POST['country'];
-
-    $sql = "update Job_List_tbl set J_Title='$title',J_Desc='$desc', J_Company_Id='$com',J_Type='$type',J_Reqs='$reqs',J_Benefits='$benefits',J_Salary='$salary',J_City='$city',J_State='$state',J_Country='$country' where J_Id='$j_id'";
-    $data = mysqli_query($con, $sql);
-    if ($data) {
-        echo "<script> location.replace('job-listings.php');</script>";
-    } else {
-        echo "errorrr";
-    }
-}
-
-?>
-
 </html>

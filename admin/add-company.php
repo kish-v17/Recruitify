@@ -11,9 +11,8 @@ if (isset($_POST['add'])) {
     $email = $_POST['email'];
     $logo = $_FILES['logo']['name'];
 
-    $logo_path_db = ""; // Default value for logo path in case no file is uploaded
+    $logo_path_db = "";
 
-    // Handle logo upload
     if (!empty($logo)) {
         $ip = "../images/logos/";
         $ip2 = "images/logos/";

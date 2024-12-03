@@ -70,7 +70,8 @@ CREATE TABLE job_list_tbl (
   Benefits TEXT NOT NULL,                     -- Benefits offered for the job
   Salary INT NOT NULL,                        -- Salary offered for the job
   Image TEXT NOT NULL,                        -- Path to an image associated with the job
-    Is_Internship BOOLEAN NOT NULL DEFAULT '0',
+  Is_Internship BOOLEAN NOT NULL DEFAULT '0',
+  Status VARCAR(10) DEFAULT 'ACTIVE',
   FOREIGN KEY (Company_Id) REFERENCES company_tbl(Company_Id) ON DELETE CASCADE,
   FOREIGN KEY (Branch_Id) REFERENCES branch_tbl(Branch_Id) ON DELETE CASCADE,
   FOREIGN KEY (Posted_By) REFERENCES user_details_tbl(User_Id) ON DELETE CASCADE
