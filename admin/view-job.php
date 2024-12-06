@@ -25,7 +25,28 @@ if (isset($_GET['job_id'])) {
         exit;
     }
 
-    // Fetch applicants for the job
+    // Pagination and Search Logic
+    $search = isset($_GET['search']) ? mysqli_real_escape_string($con, $_GET['search']) : '';
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $limit = 5; // Records per page
+    $offset = ($page - 1) * $limit;
+
+    $search_condition = "";
+    if (!empty($search)) {
+        $search_condition = "AND (u.Name LIKE '%$search%' OR u.Email LIKE '%$search%' OR u.Mobile LIKE '%$search%')";
+    }
+
+    // Count total applicants for pagination
+    $count_query = "
+        SELECT COUNT(*) AS total 
+        FROM application_tbl a
+        INNER JOIN users_tbl u ON a.User_Id = u.User_Id
+        WHERE a.Job_Id = '$job_id' $search_condition";
+    $count_result = mysqli_query($con, $count_query);
+    $total_rows = ($count_result && mysqli_num_rows($count_result) > 0) ? mysqli_fetch_assoc($count_result)['total'] : 0;
+    $total_pages = ceil($total_rows / $limit);
+
+    // Fetch applicants with pagination and search
     $applicant_query = "
         SELECT 
             a.Application_Id,
@@ -37,7 +58,8 @@ if (isset($_GET['job_id'])) {
             a.User_Id
         FROM application_tbl a
         INNER JOIN users_tbl u ON a.User_Id = u.User_Id
-        WHERE a.Job_Id = '$job_id'";
+        WHERE a.Job_Id = '$job_id' $search_condition
+        LIMIT $limit OFFSET $offset";
     $applicant_result = mysqli_query($con, $applicant_query);
 }
 ?>
@@ -77,6 +99,15 @@ if (isset($_GET['job_id'])) {
                 <h4>Applicants</h4>
             </div>
             <div class="card-body">
+                <!-- Search Form -->
+                <form method="GET" class="mb-3">
+                    <input type="hidden" name="job_id" value="<?= $job_id; ?>">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search applicants by name, email, or mobile" value="<?= htmlspecialchars($search); ?>">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+
                 <?php if ($applicant_result && mysqli_num_rows($applicant_result) > 0) { ?>
                     <table class="table table-bordered">
                         <thead>
@@ -91,24 +122,26 @@ if (isset($_GET['job_id'])) {
                         </thead>
                         <tbody>
                         <?php while ($applicant = mysqli_fetch_assoc($applicant_result)) { ?>
-    <tr>
-    <form method="POST" action="update-application-status.php">
-        <td><?= $applicant['Applicant_Name']; ?></td>
-        <td><?= $applicant['Applicant_Email']; ?></td>
-        <td><?= $applicant['Applicant_Mobile']; ?></td>
-        <td><?= date("d M Y, h:i A", strtotime($applicant['Application_Date'])); ?></td>
-        <td><?= $applicant['Status'] ?></td>
-        <td>
-            <a href="view-jobseeker.php?user_id=<?= $applicant['User_Id']; ?>" class="btn btn-info btn-sm">View</a>
-        </td>
-    </form>
-    </tr>
-<?php } ?>
-
+                            <tr>
+                                <td><?= $applicant['Applicant_Name']; ?></td>
+                                <td><?= $applicant['Applicant_Email']; ?></td>
+                                <td><?= $applicant['Applicant_Mobile']; ?></td>
+                                <td><?= date("d M Y, h:i A", strtotime($applicant['Application_Date'])); ?></td>
+                                <td><?= $applicant['Status'] ?></td>
+                                <td>
+                                    <a href="view-jobseeker.php?user_id=<?= $applicant['User_Id']; ?>" class="btn btn-info btn-sm">View</a>
+                                    <a href="remove-application.php?application_id=<?= $applicant['Application_Id']; ?>" class="btn btn-danger btn-sm">Remove</a>
+                                </td>
+                            </tr>
+                        <?php } ?>
                         </tbody>
                     </table>
+
+                    <!-- Pagination Links -->
+                    <?php include "common/pagination.php"; ?>
+
                 <?php } else { ?>
-                    <p class="text-danger">No applicants for this job yet.</p>
+                    <p class="text-danger">No applicants found.</p>
                 <?php } ?>
             </div>
         </div>

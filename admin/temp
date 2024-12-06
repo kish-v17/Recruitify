@@ -155,7 +155,6 @@ $totalPagesEmployers = ceil($totalEmployers['total'] / $records_per_page);
                                             <a href="view-employer.php?user_id=<?= $user['User_Id']; ?>" class="btn btn-info btn-sm">View</a>
                                             <a href="update-employer.php?user_id=<?= $user['User_Id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <a href="delete-user.php?user_id=<?= $user['User_Id']; ?>" class="btn btn-danger btn-sm">Delete</a>
-                                            <a href="posts.php?user_id=<?= $user['User_Id']; ?>" class="btn btn-secondary btn-sm">Posts</a>
                                         </td>
                                     </tr>
                                 <?php } ?>

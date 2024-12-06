@@ -16,17 +16,17 @@
 
         <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;300;400;600;700&display=swap" rel="stylesheet">
 
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
-        <link href="../css/bootstrap-icons.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
 
-        <link href="../css/owl.carousel.min.css" rel="stylesheet">
+        <link href="css/owl.carousel.min.css" rel="stylesheet">
 
-        <link href="../css/owl.theme.default.min.css" rel="stylesheet">
+        <link href="css/owl.theme.default.min.css" rel="stylesheet">
 
         <link href="tooplate-Recruitify-job.css" rel="stylesheet">
 
-        <link rel="shortcut icon" type="image/x-icon" href="../images/logo.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="images/logo.png" />
         
     </head>
     
@@ -58,7 +58,7 @@
                 </div>
             </header>
             <?php
-                include '../time-ago.php';
+                include 'time-ago.php';
                 $j_id=$_GET['job_id'];
                 $sql="select * from job_list_tbl j 
                 inner join branch_tbl b on j.Branch_Id = b.Branch_Id 
@@ -149,7 +149,7 @@
                                 <div class="job-thumb job-thumb-detail-box bg-white shadow-lg">
                                     <div class="d-flex align-items-center">
                                         <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mb-3">
-                                            <img src="../'.$result2['Logo'].'" class="job-image me-3 img-fluid" alt="">
+                                            <img src="'.$result2['Logo'].'" class="job-image me-3 img-fluid" alt="">
 
                                             <h4 class="mb-0">'.$result2['Name'].'</h4>
                                         </div>
@@ -285,7 +285,7 @@
                                         <div class="job-thumb job-thumb-box">
                                             <div class="job-image-box-wrap">
                                                 <a href="' . $jobDetailsUrl . '">
-                                                    <img src="../' . $jobImage . '" class="job-image img-fluid" alt="' . $jobTitle . '">
+                                                    <img src="' . $jobImage . '" class="job-image img-fluid" alt="' . $jobTitle . '">
                                                 </a>
                             
                                                 <div class="job-image-box-wrap-info d-flex align-items-center">
@@ -302,7 +302,7 @@
                             
                                                 <div class="d-flex align-items-center">
                                                     <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                                        <img src="../' . $companyLogo . '" class="job-image me-3 img-fluid" alt="' . $companyName . '">
+                                                        <img src="' . $companyLogo . '" class="job-image me-3 img-fluid" alt="' . $companyName . '">
                                                         <p class="mb-0">' . $companyName . '</p>
                                                     </div>
                             
@@ -340,31 +340,9 @@
             </section>
 
 
-            <section class="cta-section">
-                <div class="section-overlay"></div>
-
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-10">
-                            <h2 class="text-white mb-2">Over 10k opening jobs</h2>
-
-                            <p class="text-white">Recruitify Job is a free HTML CSS template for job hunting related websites. This layout is based on the famous Bootstrap 5 CSS framework. Thank you for visiting Tooplate website.</p>
-                        </div>
-
-                        <div class="col-lg-4 col-12 ms-auto">
-                            <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
-                                <a href="#" class="custom-btn custom-border-btn btn me-4">Create an account</a>
-
-                                <a href="#" class="custom-link">Post a job</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
+            
         </main>
-
+<hr>
         <?php include "footer.php"?>
         <?php  
             if(isset($_POST['apply'])){
@@ -381,10 +359,10 @@
         ?>
 
         <!-- JAVASCRIPT FILES -->
-        <script src="../js/jquery.min.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/owl.carousel.min.js"></script>
-        <script src="../js/counter.js"></script>
-        <script src="../js/custom.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/counter.js"></script>
+        <script src="js/custom.js"></script>
     </body>
 </html>
