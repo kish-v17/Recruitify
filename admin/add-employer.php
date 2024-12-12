@@ -72,24 +72,24 @@ if (isset($_POST['submit'])) {
 
                     <div class="mb-3">
                         <label for="branch_id" class="form-label">Branch</label>
-                        <select id="branch_id" name="branch_id" class="form-select" required>
+                        <select  id="branch_id" name="branch_id" class="form-select" required>
                             <option value="">Select Branch</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input required  type="text" class="form-control" id="name" name="name" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input required  type="email" class="form-control" id="email" name="email" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="dob" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" id="dob" name="dob" required>
+                        <input required  type="date" class="form-control" id="dob" name="dob" required>
                     </div>
 
                     <div class="mb-3">
@@ -103,37 +103,37 @@ if (isset($_POST['submit'])) {
 
                     <div class="mb-3">
                         <label for="city" class="form-label">City</label>
-                        <input type="text" class="form-control" id="city" name="city" required>
+                        <input required  type="text" class="form-control" id="city" name="city" required>
                     </div>
 
                     <!-- State -->
                     <div class="mb-3">
                         <label for="state" class="form-label">State</label>
-                        <input type="text" class="form-control" id="state" name="state" required>
+                        <input required  type="text" class="form-control" id="state" name="state" required>
                     </div>
 
                     <!-- Country -->
                     <div class="mb-3">
                         <label for="country" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="country" name="country" required>
+                        <input required  type="text" class="form-control" id="country" name="country" required>
                     </div>
 
                     <!-- Mobile -->
                     <div class="mb-3">
                         <label for="mobile" class="form-label">Mobile</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" required>
+                        <input required  type="text" class="form-control" id="mobile" name="mobile" required>
                     </div>
 
                     <!-- Image -->
                     <div class="mb-3">
                         <label for="image" class="form-label">Profile Picture</label>
-                        <input type="file" class="form-control" id="image" name="image" required>
+                        <input required  type="file" class="form-control" id="image" name="image" required>
                     </div>
 
                     <!-- Password -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <input required  type="password" class="form-control" id="password" name="password" required>
                     </div>
 
                     <button type="submit" name="submit" class="btn btn-primary">Add Employer</button>

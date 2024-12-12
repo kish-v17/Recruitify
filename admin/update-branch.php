@@ -74,11 +74,11 @@ if (isset($_POST['update'])) {
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="phone" name="phone" value="<?= $branch['Phone']; ?>">
+                        <input type="text" class="form-control" id="phone" name="phone" value="<?= $branch['Phone']; ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?= $branch['Email']; ?>">
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $branch['Email']; ?>" required>
                     </div>
                     <button type="submit" name="update" class="btn btn-primary">Update Branch</button>
                 </form>

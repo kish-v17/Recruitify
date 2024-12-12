@@ -40,26 +40,26 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="card-body">
                 <form method="POST" action="">
-                    <input type="hidden" name="user_id" value="<?= $_GET["user_id"] ?>">
+                    <input  type="hidden" name="user_id" value="<?= $_GET["user_id"] ?>">
                     <div class="mb-3">
                         <label for="course" class="form-label">Course</label>
-                        <input type="text" class="form-control" id="course" name="course" required>
+                        <input required  type="text" class="form-control" id="course" name="course" required>
                     </div>
                     <div class="mb-3">
                         <label for="institute" class="form-label">Institute</label>
-                        <input type="text" class="form-control" id="institute" name="institute" required>
+                        <input required  type="text" class="form-control" id="institute" name="institute" required>
                     </div>
                     <div class="mb-3">
                         <label for="institute_city" class="form-label">Institute City</label>
-                        <input type="text" class="form-control" id="institute_city" name="institute_city" required>
+                        <input required  type="text" class="form-control" id="institute_city" name="institute_city" required>
                     </div>
                     <div class="mb-3">
                         <label for="start_date" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                        <input required  type="date" class="form-control" id="start_date" name="start_date" required>
                     </div>
                     <div class="mb-3">
                         <label for="end_date" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="end_date" name="end_date">
+                        <input required  type="date" class="form-control" id="end_date" name="end_date">
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary">Add Education</button>
                 </form>

@@ -127,15 +127,6 @@
                                             <form method="post">
                                                 <button type="submit" name="apply" class="custom-btn btn mt-2">Apply now</button>
                                             </form>
-                                            <a href="#" class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3">Save this job</a>
-
-                                            <div class="job-detail-share d-flex align-items-center">
-                                                <p class="mb-0 me-lg-4 me-3">Share:</p>
-
-                                                <a href="#" class="bi-facebook"></a>
-                                                <a href="#" class="bi-twitter mx-3"></a>
-                                                <a href="#" class="bi-share"></a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>';
@@ -154,9 +145,6 @@
                                             <h4 class="mb-0">'.$result2['Name'].'</h4>
                                         </div>
 
-                                        <a href="#" class="bi-bookmark ms-auto me-2"></a>
-
-                                        <a href="#" class="bi-heart"></a>
                                     </div>
 
                                     <h6 class="mt-3 mb-2">About the Company</h6>
@@ -306,8 +294,6 @@
                                                         <p class="mb-0">' . $companyName . '</p>
                                                     </div>
                             
-                                                    <a href="#" class="bi-bookmark ms-auto me-2"></a>
-                                                    <a href="#" class="bi-heart"></a>
                                                 </div>
                             
                                                 <div class="d-flex align-items-center">
@@ -323,8 +309,11 @@
                                                         $' . $jobSalary . '
                                                     </p>
                             
-                                                    <a href="' . $jobDetailsUrl . '" class="custom-btn btn ms-auto">Apply now</a>
-                                                </div>
+                                                    <form method="post">
+                                                        <input type="hidden" name="job_id" value='.$row['Job_Id'].'>
+                                                        <button type="submit" name="apply_2" class="custom-btn btn mt-2">Apply now</button>
+                                                    </form>
+                                                    </div>
                                             </div>
                                         </div>
                                     </div>
@@ -366,19 +355,7 @@
         </main>
 
         <?php include "footer.php"?>
-        <?php  
-            if(isset($_POST['apply'])){
-                $sql3="insert into applications_tbl values(A_Id,'$j_id','$_SESSION[user_id]',NOW())";
-                $dt=mysqli_query($con,$sql3);
-                if($dt)
-                {
-                    echo "<script> alert('applied Successfully');</script>";
-                }
-                else{
-                    echo "errorrr";
-                }    
-            }
-        ?>
+        
 
         <!-- JAVASCRIPT FILES -->
         <script src="../js/jquery.min.js"></script>
@@ -388,3 +365,24 @@
         <script src="../js/custom.js"></script>
     </body>
 </html>
+<?php  
+            if (isset($_POST['apply_2'])) {
+                $user_id = $_SESSION['user_id']; 
+                $j_id = $_POST['job_id'];
+                $check_query = "SELECT * FROM application_tbl WHERE Job_Id = $j_id AND User_Id = '$user_id'";
+                $check_result = mysqli_query($con, $check_query);
+            
+                if (mysqli_num_rows($check_result) > 0) {
+                    echo "<script>alert('You have already applied for this job.');location.replace('job-applied.php');</script>";
+                } else {
+                    $sql_apply = "INSERT INTO application_tbl (Job_Id, User_Id) VALUES ($j_id, '$user_id')";
+                    $apply_result = mysqli_query($con, $sql_apply);
+            
+                    if ($apply_result) {
+                        echo "<script>alert('Applied successfully');location.replace('job-applied.php');</script>";
+                    } else {
+                        echo "<script>alert('Error in application. Please try again.');</script>";
+                    }
+                }
+            }
+        ?>

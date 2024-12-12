@@ -91,12 +91,12 @@
 
                             <div class="col-lg-6 col-md-6 col-12">
                                 <label for="phone">Phone</label>
-                                <input type="tel" name="phone" id="phone" class="form-control" pattern="[0-9]{10,}">
+                                <input type="tel" name="phone" id="phone" class="form-control" pattern="[0-9]{10,}" required>
                             </div>
 
                             <div class="col-lg-6 col-md-6 col-12">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control">
+                                <input type="email" name="email" id="email" class="form-control" required>
                             </div>
 
                             <div class="col-12">

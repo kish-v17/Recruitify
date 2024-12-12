@@ -118,23 +118,23 @@
                                 <div class="row">
                                     <div class="col-lg-12 col-12">
                                         <label for="Course">Course</label>
-                                        <input type="text" name="course" id="course" class="form-control">
+                                        <input required type="text" name="course" id="course" class="form-control">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="institute">Institute/University</label>
-                                        <input tyoe="text" name="uni" id="uni" class="form-control">
+                                        <input required type="text" name="uni" id="uni" class="form-control">
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="city">City</label>
 
-                                        <input type="text" name="city" id="city" class="form-control" >
+                                        <input required type="text" name="city" id="city" class="form-control" >
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <label for="start">Starting Date</label>
-                                        <input type="date" name="start" id="start" class="form-control" >
+                                        <input required type="date" name="start" id="start" class="form-control" >
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">

@@ -117,7 +117,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="company">Company</label>
-                                    <select name="company" id="company" class="form-control">
+                                    <select name="company" id="company" class="form-control" required>
                                     <?php
                                         $query = "SELECT Company_Id, Name FROM company_tbl";
                                         $data = mysqli_query($con, $query);
@@ -137,7 +137,7 @@
 
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="branch">Branch</label>
-                                    <select name="branch" id="branch" class="form-control" >
+                                    <select name="branch" id="branch" class="form-control" required>
                                         <option value="">Select Branch</option>
                                     </select>
                                     <p class="d-flex justify-content-center">
@@ -150,17 +150,17 @@
                                     <center>
                                         <div class="form-control">
                                             <label><input type="radio" name="iscrnt" id="crnt" value="1" > YES &emsp;</label>
-                                            &emsp;<label><input type="radio" name="iscrnt" id="crnt" value="0" > NO </label>
+                                            &emsp;<label><input type="radio" name="iscrnt" id="crnt" value="0" checked> NO </label>
                                         </div>
                                     </center>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="desg">Designation</label>
-                                    <input type="text" name="desg" id="desg" class="form-control">
+                                    <input required type="text" name="desg" id="desg" class="form-control">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label for="join">Joining Date</label>
-                                    <input type="date" name="start" id="start" class="form-control" >
+                                    <input required type="date" name="start" id="start" class="form-control" >
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-12">
