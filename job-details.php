@@ -123,19 +123,11 @@
                                             }
                                             echo '
                                         </ul>
-                                         <div class="d-flex justify-content-center flex-wrap mt-5 border-top pt-4">
-                                            <form method="post">
+                                         <div class="d-flex justify-content-end flex-wrap mt-5 border-top pt-4">
+                                            <form method="post" action="login.php">
                                                 <button type="submit" name="apply" class="custom-btn btn mt-2">Apply now</button>
                                             </form>
-                                            <a href="#" class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3">Save this job</a>
-
-                                            <div class="job-detail-share d-flex align-items-center">
-                                                <p class="mb-0 me-lg-4 me-3">Share:</p>
-
-                                                <a href="#" class="bi-facebook"></a>
-                                                <a href="#" class="bi-twitter mx-3"></a>
-                                                <a href="#" class="bi-share"></a>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>';
@@ -154,9 +146,6 @@
                                             <h4 class="mb-0">'.$result2['Name'].'</h4>
                                         </div>
 
-                                        <a href="#" class="bi-bookmark ms-auto me-2"></a>
-
-                                        <a href="#" class="bi-heart"></a>
                                     </div>
 
                                     <h6 class="mt-3 mb-2">About the Company</h6>
@@ -306,8 +295,6 @@
                                                         <p class="mb-0">' . $companyName . '</p>
                                                     </div>
                             
-                                                    <a href="#" class="bi-bookmark ms-auto me-2"></a>
-                                                    <a href="#" class="bi-heart"></a>
                                                 </div>
                             
                                                 <div class="d-flex align-items-center">
@@ -320,10 +307,10 @@
                                                 <div class="d-flex align-items-center border-top pt-3">
                                                     <p class="job-price mb-0">
                                                         <i class="custom-icon bi-cash me-1"></i>
-                                                        $' . $jobSalary . '
+                                                        ₹' . $jobSalary . '
                                                     </p>
                             
-                                                    <a href="' . $jobDetailsUrl . '" class="custom-btn btn ms-auto">Apply now</a>
+                                                    <a href="login.php" class="custom-btn btn ms-auto">Apply now</a>
                                                 </div>
                                             </div>
                                         </div>
