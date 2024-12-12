@@ -113,8 +113,9 @@
                     <div class="col-lg-6 col-12 mb-lg-4">
                             <h2>Ready for Hiring You</h2>
                         </div>
-
                         <div class="col-lg-4 col-12 d-flex align-items-center ms-auto mb-5 mb-lg-4">
+                        </div>
+                        <!-- <div class="col-lg-4 col-12 d-flex align-items-center ms-auto mb-5 mb-lg-4">
                             <p class="mb-0 ms-lg-auto">Sort by:</p>
 
                             <div class="dropdown dropdown-sorting ms-3 me-4">
@@ -130,14 +131,14 @@
                                     <li><a class="dropdown-item" href="#">Internship Jobs</a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                         <?php
                         include "time-ago.php";
 // Define the number of results per page
 $results_per_page = 6;
 
 // Determine the current page
-$current_page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($current_page < 1) $current_page = 1;
 
 // Calculate the starting limit for the SQL query
