@@ -65,6 +65,14 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                             <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                             Users
                         </a>
+                        <a class="nav-link <?php echo ($currentPage == 'responses.php') ? 'active' : ''; ?>" href="responses.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-message"></i></div>
+                            Responses
+                        </a>
+                        <a class="nav-link <?php echo ($currentPage == 'about.php') ? 'active' : ''; ?>" href="about.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-info"></i></div>
+                            About us
+                        </a>
                     </div>
                 </nav>
             </div>
