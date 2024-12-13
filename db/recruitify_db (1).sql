@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 13, 2024 at 03:31 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Host: localhost:3306
+-- Generation Time: Dec 13, 2024 at 02:49 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,16 +24,35 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `about_page_details_tbl`
+--
+
+CREATE TABLE `about_page_details_tbl` (
+  `about_for` varchar(10) NOT NULL,
+  `about_content` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `about_page_details_tbl`
+--
+
+INSERT INTO `about_page_details_tbl` (`about_for`, `about_content`) VALUES
+('employer', '<p>&lt;h2&gt;Welcome to Recrutify\'s Employer Portal&lt;/h2&gt;<br>&lt;p&gt;At &lt;strong&gt;Recrutify&lt;/strong&gt;, we understand that finding the right talent is the cornerstone of every successful business. Our platform is tailored to simplify your hiring process and connect you with exceptional candidates ready to contribute to your company\'s growth and success.&lt;/p&gt;<br>&lt;p&gt;&lt;strong&gt;Why choose Recrutify?&lt;/strong&gt;&lt;/p&gt;<br>&lt;ul&gt;<br>&nbsp; &nbsp;&lt;li&gt;Access to a vast and diverse pool of skilled professionals across various industries.&lt;/li&gt;<br>&nbsp; &nbsp;&lt;li&gt;Intuitive tools to post job openings, manage applications, and streamline your recruitment process.&lt;/li&gt;<br>&nbsp; &nbsp;&lt;li&gt;Detailed insights and analytics to make informed hiring decisions.&lt;/li&gt;<br>&nbsp; &nbsp;&lt;li&gt;Dedicated support to ensure a seamless experience for all employers.&lt;/li&gt;<br>&lt;/ul&gt;<br>&lt;p&gt;Join thousands of employers who trust Recrutify to build their dream teams. Together, we can create a workforce that drives innovation and excellence!&lt;/p&gt;<br>&nbsp;</p>'),
+('jobseeker', '<p>&lt;h2&gt;Welcome to Recrutify\'s Jobseeker Portal&lt;/h2&gt;<br>&lt;p&gt;At &lt;strong&gt;Recrutify&lt;/strong&gt;, we believe in empowering individuals to achieve their career aspirations. Our platform is designed to connect you with top employers who value your skills and potential.&lt;/p&gt;<br>&lt;p&gt;&lt;strong&gt;Why start your journey with Recrutify?&lt;/strong&gt;&lt;/p&gt;<br>&lt;ul&gt;<br>&nbsp; &nbsp;&lt;li&gt;Explore a wide range of job opportunities across various industries and roles.&lt;/li&gt;<br>&nbsp; &nbsp;&lt;li&gt;Build a standout profile to showcase your expertise and achievements.&lt;/li&gt;<br>&nbsp; &nbsp;&lt;li&gt;Receive personalized job recommendations that align with your skills and interests.&lt;/li&gt;<br>&nbsp; &nbsp;&lt;li&gt;Access career resources and tips to enhance your job search and professional growth.&lt;/li&gt;<br>&lt;/ul&gt;<br>&lt;p&gt;Whether you\'re starting your career or looking to take the next big step, Recrutify is here to support you every step of the way. Let’s turn your ambitions into achievements!&lt;/p&gt;<br>&nbsp;</p>');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `application_tbl`
 --
 
 CREATE TABLE `application_tbl` (
-  `Application_Id` int(11) NOT NULL,
-  `User_Id` int(11) NOT NULL,
-  `Job_Id` int(11) NOT NULL,
+  `Application_Id` int NOT NULL,
+  `User_Id` int NOT NULL,
+  `Job_Id` int NOT NULL,
   `Status` enum('Pending','Accepted','Rejected') NOT NULL DEFAULT 'Pending',
-  `Application_Date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `Application_Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -42,15 +61,15 @@ CREATE TABLE `application_tbl` (
 --
 
 CREATE TABLE `branch_tbl` (
-  `Branch_Id` int(11) NOT NULL,
-  `Company_Id` int(11) NOT NULL,
+  `Branch_Id` int NOT NULL,
+  `Company_Id` int NOT NULL,
   `Address` text NOT NULL,
   `City` varchar(50) NOT NULL,
   `State` varchar(50) NOT NULL,
   `Country` varchar(50) NOT NULL DEFAULT 'India',
   `Phone` varchar(20) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `branch_tbl`
@@ -69,28 +88,28 @@ INSERT INTO `branch_tbl` (`Branch_Id`, `Company_Id`, `Address`, `City`, `State`,
 --
 
 CREATE TABLE `company_tbl` (
-  `Company_Id` int(11) NOT NULL,
-  `Posted_by` int(11) NOT NULL DEFAULT 6,
+  `Company_Id` int NOT NULL,
+  `Posted_by` int NOT NULL DEFAULT '6',
   `Name` varchar(50) NOT NULL,
   `Description` varchar(5000) NOT NULL,
   `Business_Stream` varchar(100) NOT NULL,
-  `Establishment_Year` year(4) NOT NULL,
+  `Establishment_Year` year NOT NULL,
   `Website` varchar(50) NOT NULL,
   `Phone` varchar(20) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Logo` text NOT NULL,
-  `Main_Branch_Id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `Main_Branch_Id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `company_tbl`
 --
 
 INSERT INTO `company_tbl` (`Company_Id`, `Posted_by`, `Name`, `Description`, `Business_Stream`, `Establishment_Year`, `Website`, `Phone`, `Email`, `Logo`, `Main_Branch_Id`) VALUES
-(1, 2, 'Google', 'A leading software development company.', 'IT & Software', 2010, 'www.google.com', '123-456-7890', 'contact@google.com', 'images/logos/google.png', 1),
-(2, 2, 'Meta', 'Providing top-notch healthcare services.', 'IT & Software\n', 2005, 'www.meta.com', '987-654-3210', 'contact@meta.com', 'images\\logos\\meta.png', NULL),
-(4, 6, 'RKU', 'Education', 'Education', 2000, 'rku.ac.in', '8732965892', 'rku@contact.com', 'images/logos/rku.jpeg', NULL),
-(5, 2, 'Paypal', 'Fienance', 'Company', 2000, 'paypal.com', '9999999999', 'paypal@company.com', 'images/logos/paypal.png', 6);
+(1, 2, 'Google', 'A leading software development company.', 'IT & Software', '2010', 'www.google.com', '123-456-7890', 'contact@google.com', 'images/logos/google.png', 1),
+(2, 2, 'Meta', 'Providing top-notch healthcare services.', 'IT & Software\n', '2005', 'www.meta.com', '987-654-3210', 'contact@meta.com', 'images\\logos\\meta.png', NULL),
+(4, 6, 'RKU', 'Education', 'Education', '2000', 'rku.ac.in', '8732965892', 'rku@contact.com', 'images/logos/rku.jpeg', NULL),
+(5, 2, 'Paypal', 'Fienance', 'Company', '2000', 'paypal.com', '9999999999', 'paypal@company.com', 'images/logos/paypal.png', 6);
 
 -- --------------------------------------------------------
 
@@ -99,14 +118,14 @@ INSERT INTO `company_tbl` (`Company_Id`, `Posted_by`, `Name`, `Description`, `Bu
 --
 
 CREATE TABLE `education_tbl` (
-  `Education_Id` int(11) NOT NULL,
-  `User_Id` int(11) NOT NULL,
+  `Education_Id` int NOT NULL,
+  `User_Id` int NOT NULL,
   `Course` varchar(1000) NOT NULL,
   `Institute` varchar(1000) NOT NULL,
   `Institute_City` varchar(1000) NOT NULL,
   `Start_Date` date NOT NULL,
   `End_Date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `education_tbl`
@@ -125,15 +144,15 @@ INSERT INTO `education_tbl` (`Education_Id`, `User_Id`, `Course`, `Institute`, `
 --
 
 CREATE TABLE `experience_tbl` (
-  `Experience_Id` int(11) NOT NULL,
-  `User_Id` int(11) NOT NULL,
-  `Is_Current` tinyint(1) NOT NULL DEFAULT 0,
-  `Company_Id` int(11) NOT NULL,
-  `Branch_Id` int(11) NOT NULL,
+  `Experience_Id` int NOT NULL,
+  `User_Id` int NOT NULL,
+  `Is_Current` tinyint(1) NOT NULL DEFAULT '0',
+  `Company_Id` int NOT NULL,
+  `Branch_Id` int NOT NULL,
   `Designation` varchar(500) NOT NULL,
   `Joining_Date` date NOT NULL,
   `Leaving_Date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `experience_tbl`
@@ -152,21 +171,43 @@ INSERT INTO `experience_tbl` (`Experience_Id`, `User_Id`, `Is_Current`, `Company
 --
 
 CREATE TABLE `job_list_tbl` (
-  `Job_Id` int(11) NOT NULL,
-  `Posted_By` int(11) NOT NULL,
+  `Job_Id` int NOT NULL,
+  `Posted_By` int NOT NULL,
   `Title` varchar(50) NOT NULL,
   `Posted_Time` datetime NOT NULL,
   `Description` varchar(1000) NOT NULL,
-  `Company_Id` int(11) NOT NULL,
-  `Branch_Id` int(11) NOT NULL,
+  `Company_Id` int NOT NULL,
+  `Branch_Id` int NOT NULL,
   `Type` enum('Full-Time','Part-Time','Contract') NOT NULL,
   `Requirements` text NOT NULL,
   `Benefits` text NOT NULL,
-  `Salary` int(11) NOT NULL,
+  `Salary` int NOT NULL,
   `Image` text NOT NULL,
-  `Is_Internship` tinyint(1) NOT NULL DEFAULT 0,
+  `Is_Internship` tinyint(1) NOT NULL DEFAULT '0',
   `Status` enum('Active','Deleted') DEFAULT 'Active'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `responses_tbl`
+--
+
+CREATE TABLE `responses_tbl` (
+  `Response_Id` int NOT NULL,
+  `Name` varchar(100) NOT NULL,
+  `Email` varchar(250) NOT NULL,
+  `Message` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `responses_tbl`
+--
+
+INSERT INTO `responses_tbl` (`Response_Id`, `Name`, `Email`, `Message`) VALUES
+(1, 'Rixit Dobaeriya', 'rixitdobariya05@gmail.com', 'dvd'),
+(2, 'Rixit Dobaeriya', 'rixitdobariya05@gmail.com', 'dvd'),
+(6, 'Rixit Dobaeriya', 'janujkumar409@rku.ac.in', 'qwe');
 
 -- --------------------------------------------------------
 
@@ -175,9 +216,9 @@ CREATE TABLE `job_list_tbl` (
 --
 
 CREATE TABLE `skills_tbl` (
-  `Skill_Id` int(11) NOT NULL,
+  `Skill_Id` int NOT NULL,
   `Skill_Name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `skills_tbl`
@@ -197,10 +238,10 @@ INSERT INTO `skills_tbl` (`Skill_Id`, `Skill_Name`) VALUES
 --
 
 CREATE TABLE `users_tbl` (
-  `User_Id` int(11) NOT NULL,
+  `User_Id` int NOT NULL,
   `User_Type` enum('Admin','Jobseeker','Employer') NOT NULL DEFAULT 'Jobseeker',
-  `Company_Id` int(11) DEFAULT NULL,
-  `Branch_Id` int(11) DEFAULT NULL,
+  `Company_Id` int DEFAULT NULL,
+  `Branch_Id` int DEFAULT NULL,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `DOB` date DEFAULT NULL,
@@ -209,11 +250,11 @@ CREATE TABLE `users_tbl` (
   `State` varchar(50) NOT NULL,
   `Country` varchar(100) NOT NULL,
   `Mobile` varchar(20) NOT NULL,
-  `Image` text DEFAULT NULL,
+  `Image` text,
   `Password` varchar(15) NOT NULL,
   `Status` enum('Active','Deleted') NOT NULL DEFAULT 'Active',
   `Register_Date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users_tbl`
@@ -234,22 +275,22 @@ INSERT INTO `users_tbl` (`User_Id`, `User_Type`, `Company_Id`, `Branch_Id`, `Nam
 --
 
 CREATE TABLE `user_skills_tbl` (
-  `User_Id` int(11) NOT NULL,
-  `Skill_Id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `User_Id` int NOT NULL,
+  `Skill_Id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user_skills_tbl`
 --
 
 INSERT INTO `user_skills_tbl` (`User_Id`, `Skill_Id`) VALUES
-(2, 2),
-(2, 3),
 (5, 1),
+(2, 2),
 (5, 2),
+(2, 3),
 (5, 3),
-(5, 5),
 (10, 3),
+(5, 5),
 (10, 5);
 
 --
@@ -303,6 +344,12 @@ ALTER TABLE `job_list_tbl`
   ADD KEY `Posted_By` (`Posted_By`);
 
 --
+-- Indexes for table `responses_tbl`
+--
+ALTER TABLE `responses_tbl`
+  ADD PRIMARY KEY (`Response_Id`);
+
+--
 -- Indexes for table `skills_tbl`
 --
 ALTER TABLE `skills_tbl`
@@ -330,49 +377,55 @@ ALTER TABLE `user_skills_tbl`
 -- AUTO_INCREMENT for table `application_tbl`
 --
 ALTER TABLE `application_tbl`
-  MODIFY `Application_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Application_Id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `branch_tbl`
 --
 ALTER TABLE `branch_tbl`
-  MODIFY `Branch_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Branch_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `company_tbl`
 --
 ALTER TABLE `company_tbl`
-  MODIFY `Company_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Company_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `education_tbl`
 --
 ALTER TABLE `education_tbl`
-  MODIFY `Education_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Education_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `experience_tbl`
 --
 ALTER TABLE `experience_tbl`
-  MODIFY `Experience_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Experience_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `job_list_tbl`
 --
 ALTER TABLE `job_list_tbl`
-  MODIFY `Job_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Job_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `responses_tbl`
+--
+ALTER TABLE `responses_tbl`
+  MODIFY `Response_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `skills_tbl`
 --
 ALTER TABLE `skills_tbl`
-  MODIFY `Skill_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Skill_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users_tbl`
 --
 ALTER TABLE `users_tbl`
-  MODIFY `User_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `User_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
