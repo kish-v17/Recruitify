@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 13, 2024 at 02:49 AM
+-- Generation Time: Dec 13, 2024 at 03:32 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -54,6 +54,13 @@ CREATE TABLE `application_tbl` (
   `Application_Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `application_tbl`
+--
+
+INSERT INTO `application_tbl` (`Application_Id`, `User_Id`, `Job_Id`, `Status`, `Application_Date`) VALUES
+(1, 10, 2, 'Pending', '2024-12-13 08:50:41');
+
 -- --------------------------------------------------------
 
 --
@@ -79,7 +86,8 @@ INSERT INTO `branch_tbl` (`Branch_Id`, `Company_Id`, `Address`, `City`, `State`,
 (1, 1, 'Albany', 'New York', 'New York', 'USA', '123-456-7891', 'newyork@techsolutions.com'),
 (2, 2, 'Los Angeles', 'Los Angeles', 'California', 'USA', '987-654-3211', 'la@healthcare.com'),
 (5, 1, 'Kotdapitha', 'Amreli', 'GUJARAT', 'India', '8732965892', 'rixitdobariya05@gmail.com'),
-(6, 5, 'Ohio', 'Ohio', 'Ohio', 'USA', '98798798979', 'rixitdobariya05@gmail.com');
+(6, 5, 'Ohio', 'Ohio', 'Ohio', 'USA', '98798798979', 'rixitdobariya05@gmail.com'),
+(7, 6, 'Address', 'Surat', 'Gujarat', 'India', '08732965892', 'rixitdobariya05@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -109,7 +117,8 @@ INSERT INTO `company_tbl` (`Company_Id`, `Posted_by`, `Name`, `Description`, `Bu
 (1, 2, 'Google', 'A leading software development company.', 'IT & Software', '2010', 'www.google.com', '123-456-7890', 'contact@google.com', 'images/logos/google.png', 1),
 (2, 2, 'Meta', 'Providing top-notch healthcare services.', 'IT & Software\n', '2005', 'www.meta.com', '987-654-3210', 'contact@meta.com', 'images\\logos\\meta.png', NULL),
 (4, 6, 'RKU', 'Education', 'Education', '2000', 'rku.ac.in', '8732965892', 'rku@contact.com', 'images/logos/rku.jpeg', NULL),
-(5, 2, 'Paypal', 'Fienance', 'Company', '2000', 'paypal.com', '9999999999', 'paypal@company.com', 'images/logos/paypal.png', 6);
+(5, 2, 'Paypal', 'Fienance', 'Company', '2000', 'paypal.com', '9999999999', 'paypal@company.com', 'images/logos/paypal.png', 6),
+(6, 4, 'Company', 'Description', 'Education', '2004', 'company.com', '8732965892', 'jane.smith@company.com', 'uploads/apple.png', 7);
 
 -- --------------------------------------------------------
 
@@ -187,6 +196,13 @@ CREATE TABLE `job_list_tbl` (
   `Status` enum('Active','Deleted') DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `job_list_tbl`
+--
+
+INSERT INTO `job_list_tbl` (`Job_Id`, `Posted_By`, `Title`, `Posted_Time`, `Description`, `Company_Id`, `Branch_Id`, `Type`, `Requirements`, `Benefits`, `Salary`, `Image`, `Is_Internship`, `Status`) VALUES
+(2, 11, 'Technical Lead', '2024-12-13 08:43:45', 'We are looking for a Technical Lead to join our team and drive technical excellence in our projects. The ideal candidate will combine a strong technical background with exceptional leadership skills to ensure the successful execution of technical solutions and guide a team of engineers toward achieving their goals.', 6, 7, 'Full-Time', 'Bachelor’s/Master’s degree in Computer Science,\r\nProven experience in a technical leadership role,\r\nStrong problem-solving, decision-making, communication skills,\r\nAbility to manage multiple tasks and prioritize effectively.', 'Competitive Salary, Career Growth', 35000, 'images/jobs/it-professional-works-startup-project.jpg', 0, 'Active');
+
 -- --------------------------------------------------------
 
 --
@@ -262,11 +278,11 @@ CREATE TABLE `users_tbl` (
 
 INSERT INTO `users_tbl` (`User_Id`, `User_Type`, `Company_Id`, `Branch_Id`, `Name`, `Email`, `DOB`, `Gender`, `City`, `State`, `Country`, `Mobile`, `Image`, `Password`, `Status`, `Register_Date`) VALUES
 (2, 'Jobseeker', NULL, NULL, 'Dobariya', 'rixitdobariya@gmail.com', '2024-11-01', 'Male', 'Surat', 'GUJARAT', 'India', '8732965891', 'images/user-img/user-profile/67454df2a5b583.32821259rixit-dobariya.jpg', 'qwertyui', 'Deleted', '2024-11-26 10:29:32'),
-(4, 'Employer', 1, 1, 'Jane Smith', 'jane.smith@company.com', '1985-10-30', 'Female', 'New York', 'New York', 'USA', '9876543210', 'images/user-img/user-profile/UseCaseDiagram1.png', 'password456', 'Active', '2024-11-26 10:39:46'),
+(4, 'Employer', 6, 7, 'Jane Smith', 'jane.smith@company.com', '1985-10-30', 'Female', 'New York', 'New York', 'USA', '9876543210', 'images/user-img/user-profile/UseCaseDiagram1.png', 'password456', 'Active', '2024-11-26 10:39:46'),
 (5, 'Jobseeker', NULL, NULL, 'Dobariya Rixit', 'rixitdobariya07@gmail.com', '2004-02-10', 'Male', 'Amreli', 'GUJARAT', 'India', '8732965892', 'images/user-img/user-profile/6745d6eb1ad3e8.80780342rixit-dobariya.jpg', 'Tpxitahi', 'Active', '2024-11-26 19:41:31'),
 (6, 'Admin', NULL, NULL, 'Admin', 'admin@admin.com', NULL, NULL, '', '', '', '', '', 'admin', 'Active', '2024-11-27 03:51:49'),
 (10, 'Jobseeker', NULL, NULL, 'Kishan Vekariya', 'kishanpatel17100@gmail.com', '2003-10-17', 'Male', 'KotdaPitha', 'Gujarat', 'India', '8798673490', 'images/user-img/user-profile/675af6deec9417.13315653KishanVekariya21FOTCA11265.jpg', 'kishan123', 'Active', '2024-12-12 20:15:16'),
-(11, 'Employer', NULL, NULL, 'Virat Kohli', 'busyman2561@gmail.com', '1988-11-05', 'Male', 'Mumbai', 'Maharashtra', 'India', '8938747809', 'images/user-img/user-profile/675afa58161380.49969348virat.jpeg', 'virat123', 'Active', '2024-12-12 20:30:39');
+(11, 'Employer', 6, 7, 'Virat Kohli', 'busyman2561@gmail.com', '1988-11-05', 'Male', 'Mumbai', 'Maharashtra', 'India', '8938747809', 'images/user-img/user-profile/675afa58161380.49969348virat.jpeg', 'virat123', 'Active', '2024-12-12 20:30:39');
 
 -- --------------------------------------------------------
 
@@ -377,19 +393,19 @@ ALTER TABLE `user_skills_tbl`
 -- AUTO_INCREMENT for table `application_tbl`
 --
 ALTER TABLE `application_tbl`
-  MODIFY `Application_Id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `Application_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `branch_tbl`
 --
 ALTER TABLE `branch_tbl`
-  MODIFY `Branch_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Branch_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `company_tbl`
 --
 ALTER TABLE `company_tbl`
-  MODIFY `Company_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Company_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `education_tbl`
@@ -407,7 +423,7 @@ ALTER TABLE `experience_tbl`
 -- AUTO_INCREMENT for table `job_list_tbl`
 --
 ALTER TABLE `job_list_tbl`
-  MODIFY `Job_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Job_Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `responses_tbl`
