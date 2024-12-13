@@ -35,7 +35,6 @@
     <?php include "navbar.php" ?>
     <?php
 include "../time-ago.php";
-// Handle Pagination Variables
 $limit = 6; // Number of jobs per page
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;

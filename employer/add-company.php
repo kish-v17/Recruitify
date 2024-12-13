@@ -120,15 +120,17 @@ if (isset($_POST['add_company'])) {
     $phone = $_POST['phone'];
     $email = $_POST['email'];
     $posted_by = $_SESSION['user_id'];
+    $ip = "../images/logos/";
+    $ip2 = "images/logos/";
 
-    $logo = $_FILES['logo']['name'];
-    $logo_tmp = $_FILES['logo']['tmp_name'];
-    $logo_path = "uploads/" . $logo;
-    move_uploaded_file($logo_tmp, $logo_path);
+
+    $logo = $ip . basename($_FILES['logo']['name']);
+    $logo2 = $ip2 . basename($_FILES['logo']['name']);
+    move_uploaded_file($_FILES['logo']['tmp_name'], $logo);
 
     // Insert company details into company_tbl
     $sql = "INSERT INTO company_tbl (Posted_by, Name, Description, Business_Stream, Establishment_Year, Website, Phone, Email, Logo, Main_Branch_Id) 
-            VALUES ('$posted_by', '$name', '$description', '$business_stream', '$establishment_year', '$website', '$phone', '$email', '$logo_path', NULL)";
+            VALUES ('$posted_by', '$name', '$description', '$business_stream', '$establishment_year', '$website', '$phone', '$email', '$logo2', NULL)";
     
     if (mysqli_query($con, $sql)) {
         // Get the ID of the newly inserted company

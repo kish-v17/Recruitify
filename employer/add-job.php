@@ -52,10 +52,8 @@
     $d = mysqli_query($con, $s);
     $row = mysqli_fetch_assoc($d);
     
-    if (!$row || $row['Company_Id'] === NULL) {
-        echo '<script> location.replace("add-company.php") </script>';
-    } elseif ($row['Branch_Id'] === NULL) {
-        echo '<script> location.replace("add-branch.php") </script>';    
+    if (!$row || $row['Company_Id'] === NULL || $row['Branch_Id'] === NULL) {
+        echo '<script> location.replace("profile-builder.php") </script>';
     } else {
         $query = "SELECT Company_Id, Branch_Id FROM users_tbl WHERE User_Id = '$user_id'";
         $result = mysqli_query($con, $query);
