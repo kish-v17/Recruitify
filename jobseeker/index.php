@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="col-lg-6 col-12">
-                        <form class="custom-form hero-form" method="post" role="form">
+                        <form class="custom-form hero-form" method="post" role="form" action="job-listings.php">
                             <h3 class="text-white mb-3">Search your dream job</h3>
 
                             <div class="row">
@@ -62,7 +62,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1"><i class="bi-person custom-icon"></i></span>
 
-                                        <input type="text" name="job-title" id="job-title" class="form-control" placeholder="Job Title">
+                                        <input type="text" name="job-title" id="job-title" class="form-control" placeholder="Job Title" required>
                                     </div>
                                 </div>
 
@@ -70,7 +70,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon2"><i class="bi-geo-alt custom-icon"></i></span>
 
-                                        <input type="text" name="job-loc" id="job-location" class="form-control" placeholder="Location">
+                                        <input type="text" name="job-location" id="job-location" class="form-control" placeholder="Location" required>
                                     </div>
                                 </div>
 

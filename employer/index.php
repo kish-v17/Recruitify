@@ -43,11 +43,11 @@
 
                         <div class="col-lg-6 col-12 mb-5 mb-lg-0">
                             <div class="hero-section-text mt-5">
-                                <h6 class="text-white">Are you looking for your dream job?</h6>
+                                <h6 class="text-white">Are you looking for candidates for your company?</h6>
 
                                 <h1 class="hero-title text-white mt-4 mb-4">Online Platform. <br> Best Job portal</h1>
 
-                                <a href="#categories-section" class="custom-btn custom-border-btn btn" style="color:gray;font-weight:bold;border:solid gray">Browse Categories</a>
+                                <a href="add-job.php" class="custom-btn custom-border-btn btn" style="color:gray;font-weight:bold;border:solid gray">Add job</a>
                             </div>
                         </div>
 

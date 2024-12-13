@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="col-lg-6 col-12">
-                            <form class="custom-form hero-form" action="#" method="get" role="form">
+                            <form class="custom-form hero-form" action="job-listings.php" method="post" role="form">
                                 <h3 class="text-white mb-3">Search your dream job</h3>
 
                                 <div class="row">

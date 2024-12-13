@@ -126,16 +126,29 @@ if (isset($_POST['add_company'])) {
     $logo_path = "uploads/" . $logo;
     move_uploaded_file($logo_tmp, $logo_path);
 
+    // Insert company details into company_tbl
     $sql = "INSERT INTO company_tbl (Posted_by, Name, Description, Business_Stream, Establishment_Year, Website, Phone, Email, Logo, Main_Branch_Id) 
-            VALUES ('$posted_by', '$name', '$description', '$business_stream', '$establishment_year', '$website', '$phone', '$email', '$logo_path', 
-            NULL)";
+            VALUES ('$posted_by', '$name', '$description', '$business_stream', '$establishment_year', '$website', '$phone', '$email', '$logo_path', NULL)";
     
     if (mysqli_query($con, $sql)) {
-        echo "<script>alert('Company added successfully'); location.replace('profile.php');</script>";
+        // Get the ID of the newly inserted company
+        $company_id = mysqli_insert_id($con);
+
+        // Update the Company_Id in users_tbl for the current user
+        $update_sql = "UPDATE users_tbl 
+                       SET Company_Id='$company_id' 
+                       WHERE User_Id='$posted_by'";
+        
+        if (mysqli_query($con, $update_sql)) {
+            echo "<script>alert('Company added and linked successfully'); location.replace('profile.php');</script>";
+        } else {
+            echo "<script>alert('Error linking company to user');</script>";
+        }
     } else {
         echo "<script>alert('Error adding company');</script>";
     }
 }
 ?>
+
 
 </html>

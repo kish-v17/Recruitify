@@ -123,7 +123,6 @@
 
 <?php
 include 'footer.php';
-
 if (isset($_POST['add_branch'])) {
     $company_id = $_POST['company_id'];
     $city = $_POST['city'];
@@ -134,16 +133,23 @@ if (isset($_POST['add_branch'])) {
     $address = $_POST['address'];
     $is_main = isset($_POST['is_main']) ? 1 : 0;
 
+    // Insert into branch_tbl
     $sql = "INSERT INTO branch_tbl (Company_Id, Address, City, State, Country, Phone, Email) 
             VALUES ('$company_id','$address', '$city', '$state', '$country', '$phone', '$email')";
     
     if (mysqli_query($con, $sql)) {
         $branch_id = mysqli_insert_id($con);
 
+        // Update main branch in company_tbl if applicable
         if ($is_main) {
             $update_sql = "UPDATE company_tbl SET Main_Branch_Id = '$branch_id' WHERE Company_Id = '$company_id'";
             mysqli_query($con, $update_sql);
         }
+
+        // Update Branch_Id in users_tbl
+        $user_id = $_SESSION['user_id'];
+        $update_user_sql = "UPDATE users_tbl SET Branch_Id = '$branch_id' WHERE User_Id = '$user_id'";
+        mysqli_query($con, $update_user_sql);
 
         echo "<script>alert('Branch added successfully'); location.replace('profile.php');</script>";
     } else {
@@ -151,5 +157,4 @@ if (isset($_POST['add_branch'])) {
     }
 }
 ?>
-
 </html>

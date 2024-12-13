@@ -47,12 +47,15 @@
     <?php include "navbar.php"; ?>
     <?php
     $user_id = $_SESSION['user_id'];
-    $s = "select Company_Id from users_tbl where User_Id='$user_id'";
+    $user_id = $_SESSION['user_id'];
+    $s = "SELECT Company_Id, Branch_Id FROM users_tbl WHERE User_Id='$user_id'";
     $d = mysqli_query($con, $s);
-    $isCompany = mysqli_num_rows($d) > 0 ? true : false;
-    if (!($isCompany)) {
-        echo 'Hellooo';
-        echo '<script> location.href=add-company.php </script>';
+    $row = mysqli_fetch_assoc($d);
+    
+    if (!$row || $row['Company_Id'] === NULL) {
+        echo '<script> location.replace("add-company.php") </script>';
+    } elseif ($row['Branch_Id'] === NULL) {
+        echo '<script> location.replace("add-branch.php") </script>';    
     } else {
         $query = "SELECT Company_Id, Branch_Id FROM users_tbl WHERE User_Id = '$user_id'";
         $result = mysqli_query($con, $query);
