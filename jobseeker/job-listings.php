@@ -35,11 +35,10 @@
     <?php include "navbar.php" ?>
     <?php
 include "../time-ago.php";
-$limit = 6; // Number of jobs per page
+$limit = 6; 
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-// Handle Filter Variables
 $filters = [];
 if (!empty($_POST['job-title'])) {
     $filters[] = "Job_List_tbl.Title LIKE '%" . mysqli_real_escape_string($con, $_POST['job-title']) . "%'";
