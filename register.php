@@ -103,15 +103,14 @@ include_once("navbar.php");
                                 <label for="conpassword">Confirm Password<font>*</font></label>
                                 <input type="password" name="conpassword" id="conpassword" class="form-control" placeholder="Confirm Password" required minlength="8">
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-12">
                                 <label for="Profile">Profile Photo<font>*</font></label>
 
                                 <input type="file" accept="image/jpeg,image/png,image/jpg" name="img" id="img" class="form-control" required>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12"></div>
 
                             <div class="col-lg-4 col-md-4 col-6 mx-auto">
-                                <button type="submit" class="form-control" name="submit">Register</button>
+                                <button type="submit" class="form-control" name="submit" onclick="validatePasswords()">Register</button>
                             </div>
                             <br /><br /><br />
                             <h5 style="text-align:center">Already have an account??&nbsp;<u><a href="login.php">Log in</a></u></h5>
@@ -127,7 +126,6 @@ include_once("navbar.php");
 
 </body>
 <?php
-include 'db-connect.php';
 
 require 'PHPMailer/Exception.php';
 require 'PHPMailer/PHPMailer.php';
@@ -148,7 +146,7 @@ if (isset($_POST['submit'])) {
     $country = $_POST['country'];
     $pass = $_POST['password'];
 
-    $image = uniqid("",true) . $_FILES['img']['name'];
+    $image = uniqid("", true) . $_FILES['img']['name'];
     $image_tmp = $_FILES['img']['tmp_name'];
     $image_folder = 'images/user-img/user-profile/' . $image;
 
@@ -160,8 +158,7 @@ if (isset($_POST['submit'])) {
         location.replace('login.php');
         </script>";
         exit();
-    }
-    else if (move_uploaded_file($image_tmp, $image_folder)) {
+    } else if (move_uploaded_file($image_tmp, $image_folder)) {
         $_SESSION['user_data'] = [
             'utype' => $utype,
             'name' => $name,
@@ -176,8 +173,8 @@ if (isset($_POST['submit'])) {
             'image' => $image_folder
         ];
 
-    
-    
+
+
         $mail = new PHPMailer(true);
 
         try {
@@ -216,9 +213,9 @@ if (isset($_POST['submit'])) {
                 setcookie('success', 'Email sent successfully. Please check your inbox for OTP.', time() + 5, "/");
             }
         } catch (Exception $e) {
-            echo "<script>alert('Error in sending email: " . $mail->ErrorInfo."')</script>";
+            echo "<script>alert('Error in sending email: " . $mail->ErrorInfo . "')</script>";
         }
-        
+
         echo "<script> location.replace('otp-page.php');</script>";
     } else {
         echo "<script>alert('Image upload failed.');</script>";

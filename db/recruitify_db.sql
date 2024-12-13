@@ -31,9 +31,9 @@ CREATE TABLE `application_tbl` (
   `Application_Id` int NOT NULL,
   `User_Id` int NOT NULL,
   `Job_Id` int NOT NULL,
-  `Status` enum('Pending','Accepted','Rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Pending',
+  `Status` enum('Pending','Accepted','Rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
   `Application_Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -50,7 +50,7 @@ CREATE TABLE `branch_tbl` (
   `Country` varchar(50) NOT NULL DEFAULT 'India',
   `Phone` varchar(20) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `branch_tbl`
@@ -80,7 +80,7 @@ CREATE TABLE `company_tbl` (
   `Email` varchar(50) NOT NULL,
   `Logo` text NOT NULL,
   `Main_Branch_Id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `company_tbl`
@@ -106,7 +106,7 @@ CREATE TABLE `education_tbl` (
   `Institute_City` varchar(1000) NOT NULL,
   `Start_Date` date NOT NULL,
   `End_Date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `education_tbl`
@@ -131,7 +131,7 @@ CREATE TABLE `experience_tbl` (
   `Designation` varchar(500) NOT NULL,
   `Joining_Date` date NOT NULL,
   `Leaving_Date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `experience_tbl`
@@ -162,7 +162,7 @@ CREATE TABLE `job_list_tbl` (
   `Image` text NOT NULL,
   `Is_Internship` tinyint(1) NOT NULL DEFAULT '0',
   `Status` enum('Active','Deleted') DEFAULT 'Active'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `job_list_tbl`
@@ -181,7 +181,7 @@ INSERT INTO `job_list_tbl` (`Job_Id`, `Posted_By`, `Title`, `Posted_Time`, `Desc
 CREATE TABLE `skills_tbl` (
   `Skill_Id` int NOT NULL,
   `Skill_Name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `skills_tbl`
@@ -202,22 +202,22 @@ INSERT INTO `skills_tbl` (`Skill_Id`, `Skill_Name`) VALUES
 
 CREATE TABLE `users_tbl` (
   `User_Id` int NOT NULL,
-  `User_Type` enum('Admin','Jobseeker','Employer') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Jobseeker',
+  `User_Type` enum('Admin','Jobseeker','Employer') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Jobseeker',
   `Company_Id` int DEFAULT NULL,
   `Branch_Id` int DEFAULT NULL,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `DOB` date DEFAULT NULL,
-  `Gender` enum('Male','Female','Other') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Gender` enum('Male','Female','Other') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `City` varchar(50) NOT NULL,
   `State` varchar(50) NOT NULL,
   `Country` varchar(100) NOT NULL,
   `Mobile` varchar(20) NOT NULL,
-  `Image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `Image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `Password` varchar(15) NOT NULL,
   `Status` enum('Active','Deleted') NOT NULL DEFAULT 'Active',
   `Register_Date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users_tbl`
@@ -241,7 +241,7 @@ INSERT INTO `users_tbl` (`User_Id`, `User_Type`, `Company_Id`, `Branch_Id`, `Nam
 CREATE TABLE `user_skills_tbl` (
   `User_Id` int NOT NULL,
   `Skill_Id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_skills_tbl`

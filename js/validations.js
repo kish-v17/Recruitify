@@ -68,3 +68,16 @@ function validateForm() {
 
     return isValid;
 }
+
+function validatePasswords() {
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("conpassword").value;
+    
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return false;
+    } else {
+        alert("Passwords match!");
+        return true;
+    }
+}
