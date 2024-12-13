@@ -150,7 +150,7 @@ Bootstrap 5 HTML CSS Template
                                     </div>
 
                                     <div class="col-lg-4 col-md-4 col-6 mx-auto">
-                                        <button type="submit" class="form-control">Send Message</button>
+                                        <button type="submit" class="form-control" name="send">Send Message</button>
                                     </div>
                                 </div>
                             </form>
@@ -196,3 +196,20 @@ Bootstrap 5 HTML CSS Template
 
     </body>
 </html>
+<?php
+    if(isset($_POST['send'])){
+    // Retrieve form data
+    $name = mysqli_real_escape_string($con, $_POST['full-name']);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $message = mysqli_real_escape_string($con, $_POST['message']);
+
+    // Prepare and execute the insert query
+    $query = "INSERT INTO `responses_tbl` (`Name`, `Email`, `Message`) VALUES ('$name', '$email', '$message')";
+    $result = mysqli_query($con, $query);
+
+    if ($result) {
+        echo "<script>alert('Message sent successfully!')</script>";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}

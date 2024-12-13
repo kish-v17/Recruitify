@@ -73,7 +73,7 @@ Bootstrap 5 HTML CSS Template
                 <div class="container">
                     <div class="row justify-content-center align-items-center">
 
-                        <div class="col-lg-5 col-12">
+                        <!-- <div class="col-lg-5 col-12">
                             <div class="about-info-text">
                                 <h2 class="mb-0">Introducing Recruitify Job</h2>
 
@@ -99,14 +99,31 @@ Bootstrap 5 HTML CSS Template
                                     <p class="text-white mb-0">years of experience</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+
+                        <?php
+// SQL query to fetch content for 'jobseeker'
+$sql = "SELECT about_content FROM about_page_details_tbl WHERE about_for = 'jobseeker'";
+
+// Execute the query
+$result = mysqli_query($con, $sql);
+
+// Check if there are any rows returned
+if (mysqli_num_rows($result) > 0) {
+    // Fetch the row and decode any HTML entities to render HTML properly
+    $row = mysqli_fetch_assoc($result);
+    echo html_entity_decode($row['about_content']);  // This will render the HTML tags properly
+} else {
+    echo "No content found for Jobseeker.";
+}
+?>
 
                     </div>
                 </div>
             </section>
 
 
-            <section class="services-section section-padding" id="services-section">
+            <!-- <section class="services-section section-padding" id="services-section">
                 <div class="container">
                     <div class="row">
 
@@ -310,7 +327,7 @@ Bootstrap 5 HTML CSS Template
 
                     </div>
                 </div>
-            </section>
+            </section> -->
 
 
             <section class="cta-section">
